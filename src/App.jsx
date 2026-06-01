@@ -26,12 +26,12 @@ function App() {
 
   if (loading) return <h2>Đang tải dữ liệu từ Server...</h2>;
   return (
-    <div>
-      <h1>Hoverse - Khám phá địa điểm</h1>
+    <div className="app-container">
+      <h1 className="page-title">Hoverse - Khám phá địa điểm</h1>
       {/* DANH SÁCH CÁC ĐỊA ĐIỂM */}
-      <div>
+      <div className="places-grid">
         {places.map((place) => (
-          <div key={place.id}>
+          <div key={place.id} className="place-card">
             <h3>{place.title}</h3>
             <p>
               <strong>Địa chỉ: </strong>
@@ -54,7 +54,7 @@ function App() {
       </div>
 
       {/* NƠI THÊM QUÁN MỚI */}
-      <button>Thêm quán mới</button>
+      <button className="add-button">Thêm quán mới</button>
     </div>
   );
 }
