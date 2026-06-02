@@ -6,23 +6,25 @@ import "./App.css";
 import placeService from "./services/placeService";
 import Header from "./components/layout/Header";
 import Layout from "./components/layout/Layout";
+import AddPlaceModal from "./components/place/AddPlaceModal";
 
 function App() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const fetchPlaces = async () => {
+    try {
+      const data = await placeService.getAllPlaces();
+      setPlaces(data);
+    } catch (error) {
+      console.log("Loi khi lay data: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPlaces = async () => {
-      try {
-        const data = await placeService.getAllPlaces();
-        setPlaces(data);
-      } catch (error) {
-        console.log("Loi khi lay data: " + error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchPlaces();
   }, []);
 
@@ -56,7 +58,14 @@ function App() {
       </div>
 
       {/* NƠI THÊM QUÁN MỚI */}
-      <button className="add-button">Thêm quán mới</button>
+      <button className="add-button" onClick={() => setIsModalOpen(true)}>
+        Thêm quán mới
+      </button>
+      <AddPlaceModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onPlaceAdded={fetchPlaces}
+      ></AddPlaceModal>
     </Layout>
   );
 }
