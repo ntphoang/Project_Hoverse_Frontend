@@ -4,6 +4,8 @@ import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
 import "./App.css";
 import placeService from "./services/placeService";
+import Header from "./components/layout/Header";
+import Layout from "./components/layout/Layout";
 
 function App() {
   const [places, setPlaces] = useState([]);
@@ -26,9 +28,9 @@ function App() {
 
   if (loading) return <h2>Đang tải dữ liệu từ Server...</h2>;
   return (
-    <div className="app-container">
-      <h1 className="page-title">Hoverse - Khám phá địa điểm</h1>
-      {/* DANH SÁCH CÁC ĐỊA ĐIỂM */}
+    <Layout>
+      <h1 className="page-title">Khám phá Hoverse</h1>
+
       <div className="places-grid">
         {places.map((place) => (
           <div key={place.id} className="place-card">
@@ -55,7 +57,7 @@ function App() {
 
       {/* NƠI THÊM QUÁN MỚI */}
       <button className="add-button">Thêm quán mới</button>
-    </div>
+    </Layout>
   );
 }
 
