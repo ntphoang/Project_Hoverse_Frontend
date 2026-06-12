@@ -69,7 +69,7 @@ const Register = () => {
               type="email"
               name="email"
               value={formData.email}
-              onChange={formData.email}
+              onChange={handleInputChange}
               placeholder="abc@domain.com"
             />
             {errors.email && <span className="error-text">{errors.email}</span>}
@@ -81,7 +81,7 @@ const Register = () => {
               type="password"
               name="password"
               value={formData.password}
-              onChange={formData.password}
+              onChange={handleInputChange}
               placeholder="Ít nhất 6 ký tự"
             />
             {errors.password && (
