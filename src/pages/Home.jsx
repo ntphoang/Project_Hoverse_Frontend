@@ -24,32 +24,39 @@ const Home = () => {
     fetchPlaces();
   }, []);
 
-  if (loading)
-    return <h2 className="page-title">Đang tải dữ liệu từ Server...</h2>;
+  if (loading) {
+    return (
+      <Layout>
+        <div className="loading-container">
+          <span className="loader-text">Đang tải dữ liệu khám phá...</span>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
-      <h1 className="page-title">🌍 Khám phá Hoverse</h1>
+      <div className="app-container">
+        <div className="home-header">
+          <h1 className="page-title">Khám phá Hoverse 🌍</h1>
+        </div>
 
-      <div className="places-grid">
-        {places.map((place) => (
-          <PlaceItem
-            className="place-card"
-            key={place.id}
-            place={place}
-          ></PlaceItem>
-        ))}
+        <div className="places-grid">
+          {places.map((place) => (
+            <PlaceItem key={place.id} place={place} />
+          ))}
+        </div>
+
+        <button className="add-button" onClick={() => setIsModalOpen(true)}>
+          + Thêm quán mới
+        </button>
+
+        <AddPlaceModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onPlaceAdded={fetchPlaces}
+        />
       </div>
-
-      <button className="add-button" onClick={() => setIsModalOpen(true)}>
-        + Thêm quán mới
-      </button>
-
-      <AddPlaceModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onPlaceAdded={fetchPlaces}
-      />
     </Layout>
   );
 };
