@@ -34,8 +34,8 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2 className="modal-title">Thêm địa điểm mới</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -45,6 +45,7 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
+              placeholder="Nhập tên địa điểm"
               required
             />
           </div>
@@ -56,6 +57,7 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
+              placeholder="Ví dụ: 12 Nguyễn Văn Bảo, Gò Vấp"
               required
             />
           </div>
@@ -80,17 +82,17 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
               value={formData.description}
               onChange={handleInputChange}
               rows="3"
+              placeholder="Chia sẻ trải nghiệm của bạn..."
             />
+          </div>
 
-            <div className="modal-actions">
-              <button type="button" className="btn-cancel" onClick={onClose}>
-                Hủy bỏ
-              </button>
-
-              <button type="submit" className="btn-submit">
-                Lưu địa điểm
-              </button>
-            </div>
+          <div className="modal-actions">
+            <button type="button" className="btn-cancel" onClick={onClose}>
+              Hủy bỏ
+            </button>
+            <button type="submit" className="btn-submit">
+              Lưu địa điểm
+            </button>
           </div>
         </form>
       </div>
