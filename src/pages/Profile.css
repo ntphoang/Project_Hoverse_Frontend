@@ -1,0 +1,32 @@
+.page-profile {
+  padding: 40px;
+  text-align: center;
+}
+
+.btn-fetch {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.btn-fetch:hover {
+  background-color: #218838;
+}
+
+.message-secret {
+  padding: 20px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  color: #333;
+  font-weight: bold;
+  border-left: 5px solid #28a745;
+}
+
+.message-error {
+  color: #dc3545;
+  font-weight: bold;
+}
