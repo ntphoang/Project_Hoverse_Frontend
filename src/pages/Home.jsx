@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import placeService from "../services/placeService";
 import Layout from "../components/layout/Layout";
 import AddPlaceModal from "../components/place/AddPlaceModal";
+import PlaceItem from "../components/place/PlaceItem";
 
 const Home = () => {
   const [places, setPlaces] = useState([]);
@@ -32,18 +33,11 @@ const Home = () => {
 
       <div className="places-grid">
         {places.map((place) => (
-          <div key={place.id} className="place-card">
-            <h3 className="place-title">{place.title}</h3>
-            <p>
-              📍 <strong>Địa chỉ:</strong> {place.address}
-            </p>
-            <p>
-              📝 <strong>Mô tả:</strong> {place.description}
-            </p>
-            <p>
-              🏷️ <span className="category-badge">{place.categoryName}</span>
-            </p>
-          </div>
+          <PlaceItem
+            className="place-card"
+            key={place.id}
+            place={place}
+          ></PlaceItem>
         ))}
       </div>
 
