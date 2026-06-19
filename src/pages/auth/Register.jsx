@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./Auth.css";
+import { useNavigate } from "react-router-dom";
+import axiosClient from "../../api/axiosClient";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,10 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +50,7 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -53,14 +59,27 @@ const Register = () => {
       password: formData.password,
     };
 
-    console.log("Dữ liệu chuẩn bị gửi xuống Spring Boot: ", payload);
-    alert("Dữ liệu đã hợp lệ! Sẵn sàng gọi API");
+    try {
+      setIsLoading(true);
+
+      const response = await axiosClient.post("/auth/register", payload);
+
+      navigate("/login");
+    } catch (error) {
+      const errorMessage =
+        error.response?.message || "Đăng ký thất bại. Vui lòng thử lại!";
+      setApiError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="auth-page">
       <div className="auth-container">
         <h2 className="auth-title">Tạo tài khoản</h2>
+
+        {apiError && <div className="error-text">{apiError}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -103,8 +122,8 @@ const Register = () => {
             )}
           </div>
 
-          <button type="submit" className="btn-submit">
-            Đăng ký ngay
+          <button type="submit" className="btn-submit" disabled={isLoading}>
+            {isLoading ? "Đang xử lý..." : "Đăng ký ngay"}
           </button>
         </form>
 
