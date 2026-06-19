@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Auth.css";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
 
 const Login = () => {
@@ -71,7 +71,7 @@ const Login = () => {
               disabled={loading}
               value={formData.password}
               onChange={handleInputChange}
-              placeholder="********"
+              placeholder="••••••••"
             />
           </div>
 
@@ -79,22 +79,21 @@ const Login = () => {
             <div
               className="error-text"
               style={{
-                marginBottom: "15px",
+                marginBottom: "16px",
                 textAlign: "center",
-                fontSize: "14px",
               }}
             >
               {error}
             </div>
           )}
 
-          <button type="submit" className="btn-submit">
+          <button type="submit" className="btn-submit" disabled={loading}>
             {loading ? "Đang xác thực..." : "Đăng nhập"}
           </button>
         </form>
 
         <div className="auth-switch">
-          Chưa có tài khoản? <a href="/register">Tạo tài khoản mới</a>
+          Chưa có tài khoản? <Link to="/register">Tạo tài khoản mới</Link>
         </div>
       </div>
     </div>
