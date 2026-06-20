@@ -1,3 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* Chế độ Sáng (Mặc định) */
+:root {
+  --bg-main: #f8f9fa;
+  --surface-color: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: #111827;
+  --accent-hover: #374151;
+  --danger-color: #ef4444;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.06);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+}
+
+/* Chế độ Tối (Dark Mode) */
+:root[data-theme='dark'] {
+  --bg-main: #0f172a;
+  --surface-color: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-color: #f8fafc;
+  --accent-hover: #e2e8f0;
+  --danger-color: #f87171;
+  --border-color: #334155;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -7,8 +40,11 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: #f8f9fa;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -16,4 +52,9 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Auth.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
 
 const Register = () => {
@@ -25,6 +25,7 @@ const Register = () => {
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
+    if (apiError) setApiError("");
   };
 
   const validateForm = () => {
@@ -32,7 +33,7 @@ const Register = () => {
 
     if (!formData.email) {
       newErrors.email = "Email không được để trống";
-    } else if (!/\S+@\S.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email không đúng định dạng";
     }
 
@@ -61,13 +62,11 @@ const Register = () => {
 
     try {
       setIsLoading(true);
-
       const response = await axiosClient.post("/auth/register", payload);
-
       navigate("/login");
     } catch (error) {
       const errorMessage =
-        error.response?.message || "Đăng ký thất bại. Vui lòng thử lại!";
+        error.response?.data?.message || "Đăng ký thất bại. Vui lòng thử lại!";
       setApiError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -79,7 +78,17 @@ const Register = () => {
       <div className="auth-container">
         <h2 className="auth-title">Tạo tài khoản</h2>
 
-        {apiError && <div className="error-text">{apiError}</div>}
+        {apiError && (
+          <div 
+            className="error-text"
+            style={{
+              marginBottom: "16px",
+              textAlign: "center",
+            }}
+          >
+            {apiError}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -90,6 +99,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="abc@domain.com"
+              disabled={isLoading}
             />
             {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
@@ -102,6 +112,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="Ít nhất 6 ký tự"
+              disabled={isLoading}
             />
             {errors.password && (
               <span className="error-text">{errors.password}</span>
@@ -116,6 +127,7 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleInputChange}
               placeholder="Nhập lại mật khẩu ở trên"
+              disabled={isLoading}
             />
             {errors.confirmPassword && (
               <span className="error-text">{errors.confirmPassword}</span>
@@ -128,7 +140,7 @@ const Register = () => {
         </form>
 
         <div className="auth-switch">
-          Đã có tài khoản? <a href="/login">Đăng nhập tại đây</a>
+          Đã có tài khoản? <Link to="/login">Đăng nhập tại đây</Link>
         </div>
       </div>
     </div>
