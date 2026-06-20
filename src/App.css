@@ -19,15 +19,9 @@
 }
 
 @keyframes pulse {
-  0% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.5;
-  }
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
 }
 
 .home-header {
@@ -43,12 +37,32 @@
   margin: 0;
 }
 
+
 .places-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(1, 1fr); /* Mặc định Mobile: 1 cột */
+  gap: 16px;
   margin-bottom: 48px;
   width: 100%;
+}
+
+@media (min-width: 640px) {
+  .places-grid {
+    grid-template-columns: repeat(2, 1fr); /* Tablet: 2 cột */
+    gap: 24px;
+  }
+}
+
+@media (min-width: 992px) {
+  .places-grid {
+    grid-template-columns: repeat(3, 1fr); /* Laptop: 3 cột */
+  }
+}
+
+@media (min-width: 1280px) {
+  .places-grid {
+    grid-template-columns: repeat(4, 1fr); /* Màn hình to: 4 cột */
+  }
 }
 
 .add-button {
@@ -58,7 +72,7 @@
   margin: 0 auto;
   padding: 14px 28px;
   background-color: var(--accent-color);
-  color: #ffffff;
+  color: var(--surface-color);
   border: none;
   border-radius: var(--radius-lg);
   font-size: 1rem;
@@ -81,10 +95,5 @@
 
   .page-title {
     font-size: 1.75rem;
-  }
-
-  .places-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
-    gap: 16px;
   }
 }

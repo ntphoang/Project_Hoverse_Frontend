@@ -18,13 +18,19 @@ export default function Profile() {
 
   return (
     <div className="page-profile">
-      <h2>Khu vực cá nhân</h2>
-      <button className="btn-fetch" onClick={fetchSecretData}>
-        Gọi API tuyệt mật
-      </button>
+      <div className="profile-card">
+        <div className="profile-header">
+          <span className="profile-icon">🔐</span>
+          <h2 className="profile-title">Khu vực cá nhân</h2>
+        </div>
 
-      {data && <div className="message-secret">{data}</div>}
-      {error && <div className="message-error">{error}</div>}
+        <button className="btn-fetch" onClick={fetchSecretData}>
+          Gọi API tuyệt mật
+        </button>
+
+        {data && <div className="message-secret">{data}</div>}
+        {error && <div className="message-error">{error}</div>}
+      </div>
     </div>
   );
 }
