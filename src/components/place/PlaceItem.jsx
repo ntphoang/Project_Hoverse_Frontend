@@ -1,6 +1,6 @@
 import "./PlaceItem.css";
 
-const PlaceItem = ({ place }) => {
+const PlaceItem = ({ place, onClick }) => {
   const {
     title,
     address,
@@ -11,12 +11,13 @@ const PlaceItem = ({ place }) => {
     authorName,
   } = place;
 
-  const fallbackImage = "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop";
+  const fallbackImage =
+    "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop";
   const displayImage = coverImageUrl ? coverImageUrl : fallbackImage;
   const author = authorName || "Anonymous";
 
   return (
-    <article className="modern-place-card">
+    <article className="modern-place-card" onClick={onClick}>
       <div className="card-image-wrapper">
         <img src={displayImage} alt={title} className="card-image" />
         <div className="card-badge">{categoryName}</div>
@@ -27,8 +28,12 @@ const PlaceItem = ({ place }) => {
           <h3 className="card-title">{title}</h3>
           <div className="card-rating">
             <span className="star">★</span>
-            <span className="rating-score">{reviewCount > 0 ? avgRating : "Mới"}</span>
-            {reviewCount > 0 && <span className="review-count">({reviewCount})</span>}
+            <span className="rating-score">
+              {reviewCount > 0 ? avgRating : "Mới"}
+            </span>
+            {reviewCount > 0 && (
+              <span className="review-count">({reviewCount})</span>
+            )}
           </div>
         </div>
 
@@ -36,7 +41,9 @@ const PlaceItem = ({ place }) => {
 
         <div className="card-footer">
           <div className="card-author">
-            <div className="author-avatar">{author.charAt(0).toUpperCase()}</div>
+            <div className="author-avatar">
+              {author.charAt(0).toUpperCase()}
+            </div>
             <span className="author-name">Bởi {author}</span>
           </div>
         </div>
