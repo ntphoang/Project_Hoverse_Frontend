@@ -3,11 +3,14 @@ import placeService from "../services/placeService";
 import Layout from "../components/layout/Layout";
 import AddPlaceModal from "../components/place/AddPlaceModal";
 import PlaceItem from "../components/place/PlaceItem";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const fetchPlaces = async () => {
     try {
@@ -43,7 +46,11 @@ const Home = () => {
 
         <div className="places-grid">
           {places.map((place) => (
-            <PlaceItem key={place.id} place={place} />
+            <PlaceItem
+              key={place.id}
+              place={place}
+              onClick={()=>navigate(`/places/${place.id}`)}
+            />
           ))}
         </div>
 
