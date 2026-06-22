@@ -10,6 +10,11 @@ const placeService = {
     const response = await axiosClient.post("/places", placeData);
     return response;
   },
+
+  getPlaceDetail: async (placeId) =>{
+    const response = await axiosClient.get(`/places/${placeId}`);
+    return response;
+  }
 };
 
 export default placeService;
