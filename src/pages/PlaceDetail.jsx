@@ -4,11 +4,16 @@ import placeService from "../services/placeService";
 import "./PlaceDetail.css";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import AddReviewModal from "../components/review/AddReviewModal";
+import axiosClient from "../api/axiosClient";
+import reviewService from "../services/reviewService";
 
 const PlaceDetail = () => {
   const [place, setPlace] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { placeId } = useParams();
 
@@ -28,6 +33,23 @@ const PlaceDetail = () => {
 
     fetchPlace();
   }, [placeId]);
+
+  const handleCreateReview = async ({ rating, content }) => {
+    try {
+      setIsSubmitting(true);
+
+      const reviewData = { rating, content };
+      const reviewSaved = await reviewService.createReview(placeId, reviewData);
+
+      setIsModalOpen(false);
+
+      setPlace((prev) => ({ ...prev, reviewCount: prev.reviewCount + 1 }));
+    } catch (error) {
+      console.error("Lỗi khi thêm đánh giá", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (loading)
     return (
@@ -94,7 +116,10 @@ const PlaceDetail = () => {
               </span>
             </div>
 
-            <button className="pd-action-btn pd-btn-primary">
+            <button
+              className="pd-action-btn pd-btn-primary"
+              onClick={() => setIsModalOpen(true)}
+            >
               ✍️ Viết đánh giá
             </button>
             <button className="pd-action-btn pd-btn-secondary">
@@ -104,6 +129,13 @@ const PlaceDetail = () => {
         </div>
       </div>
       <Footer></Footer>
+
+      <AddReviewModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCreateReview}
+        isSubmitting={isSubmitting}
+      ></AddReviewModal>
     </div>
   );
 };
