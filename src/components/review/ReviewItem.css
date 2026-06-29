@@ -1,0 +1,99 @@
+.review-item {
+  background-color: var(--surface-color);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 15px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Cụm thông tin phía trên */
+.review-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.img-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; 
+  object-fit: cover; 
+  border: 2px solid var(--border-color);
+}
+
+.review-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewer-name {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.review-date {
+  margin: 0;
+  margin-top: 2px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Cụm nội dung phía dưới */
+.review-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-main); 
+  padding: 15px;
+  border-radius: var(--radius-sm);
+  gap: 20px;
+}
+
+.review-content {
+  flex: 1; 
+}
+
+.review-content p {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Khu vực điểm số */
+.review-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  padding-left: 20px;
+  border-left: 1px dashed var(--border-color); 
+}
+
+.rating-number {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  margin-top: 5px;
+}
+
+.star-icon {
+  font-size: 0.9rem;
+}
