@@ -7,6 +7,7 @@ import Footer from "../components/layout/Footer";
 import AddReviewModal from "../components/review/AddReviewModal";
 import axiosClient from "../api/axiosClient";
 import reviewService from "../services/reviewService";
+import ReviewList from "../components/review/ReviewList";
 
 const PlaceDetail = () => {
   const [place, setPlace] = useState({});
@@ -96,9 +97,9 @@ const PlaceDetail = () => {
             <h2 className="pd-section-title" style={{ marginTop: "30px" }}>
               Đánh giá từ cộng đồng
             </h2>
-            <p className="pd-description">
-              (Khu vực này sẽ nhúng Component Bình luận vào sau)
-            </p>
+            <div className="pd-description">
+              <ReviewList placeId={place.id}></ReviewList>
+            </div>
           </div>
 
           {/* CỘT PHẢI (STICKY) */}
