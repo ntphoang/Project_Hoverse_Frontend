@@ -7,61 +7,132 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [places, setPlaces] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [minRating, setMinRating] = useState("");
+
+  const size = 6;
 
   const navigate = useNavigate();
 
-  const fetchPlaces = async () => {
+  const fetchPlaces = async (currentPage) => {
     try {
-      const data = await placeService.getAllPlaces();
-      setPlaces(data);
+      setLoading(true);
+      const response = await placeService.getPlaceByConditions(
+        title,
+        minRating,
+        currentPage,
+        size,
+      );
+      if (currentPage === 0) {
+        setPlaces(response.content);
+      } else {
+        setPlaces((prev) => [...prev, ...response.content]);
+      }
+      setHasMore(!response.last);
     } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu:", error);
+      console.error("Lỗi khi lấy dữ liệu:", error.message);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPlaces();
+    fetchPlaces(0);
   }, []);
 
-  if (loading) {
-    return (
-      <Layout>
-        <div className="loading-container">
-          <span className="loader-text">Đang tải dữ liệu khám phá...</span>
-        </div>
-      </Layout>
-    );
-  }
+  const handleSearch = () => {
+    setPage(0);
+    fetchPlaces(0);
+  };
+
+  const handleReadMore = () => {
+    const nextPage = page + 1;
+    fetchPlaces(nextPage);
+    setPage((page) => page + 1);
+  };
 
   return (
     <Layout>
       <div className="app-container">
+        
+        {/* KHỐI 1: HEADER & NÚT THÊM QUÁN */}
         <div className="home-header">
           <h1 className="page-title">Khám phá Hoverse 🌍</h1>
+          <button className="add-button" onClick={() => setIsModalOpen(true)}>
+            + Thêm quán mới
+          </button>
         </div>
 
-        <div className="places-grid">
-          {places.map((place) => (
-            <PlaceItem
-              key={place.id}
-              place={place}
-              onClick={()=>navigate(`/places/${place.id}`)}
-            />
-          ))}
+        {/* KHỐI 2: THANH TÌM KIẾM & LỌC */}
+        <div className="search-filter-panel">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Nhập địa điểm cần tìm..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <select
+            className="search-select"
+            name="rating"
+            onChange={(e) => setMinRating(e.target.value)}
+            value={minRating}
+          >
+            <option value="">Tất cả đánh giá</option>
+            <option value="4">Từ 4⭐ trở lên</option>
+            <option value="3">Từ 3⭐ trở lên</option>
+            <option value="2">Từ 2⭐ trở lên</option>
+            <option value="1">Từ 1⭐ trở lên</option>
+          </select>
+          <button 
+            className="btn-search"
+            onClick={handleSearch} 
+            disabled={loading}
+          >
+            {loading ? "Đang tìm..." : "🔍 Tìm kiếm"}
+          </button>
         </div>
 
-        <button className="add-button" onClick={() => setIsModalOpen(true)}>
-          + Thêm quán mới
-        </button>
+        {/* KHỐI 3: DANH SÁCH QUÁN VÀ TRẠNG THÁI TRỐNG */}
+        {places.length === 0 && !loading ? (
+          <div className="empty-state">
+            <p>Không tìm thấy địa điểm nào phù hợp với yêu cầu của bạn 😢</p>
+          </div>
+        ) : (
+          <div className="places-grid">
+            {places.map((place) => (
+              <PlaceItem
+                key={place.id}
+                place={place}
+                onClick={() => navigate(`/places/${place.id}`)}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* KHỐI 4: NÚT XEM THÊM */}
+        {hasMore && places.length > 0 && (
+          <button 
+            className="btn-load-more" 
+            onClick={handleReadMore}
+            disabled={loading}
+          >
+            {loading ? "Đang tải thêm dữ liệu..." : "Xem thêm địa điểm"}
+          </button>
+        )}
 
         <AddPlaceModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onPlaceAdded={fetchPlaces}
+          onPlaceAdded={() => {
+            setPage(0);
+            fetchPlaces(0);
+          }}
         />
       </div>
     </Layout>
