@@ -1,8 +1,15 @@
 import axiosClient from "../api/axiosClient";
 
 const placeService = {
-  getAllPlaces: async () => {
-    const response = await axiosClient.get("/places");
+  getPlaceByConditions: async (title, minRating, page, size) => {
+    const response = await axiosClient.get("/places", {
+      params: {
+        title: title,
+        minRating: minRating,
+        page: page,
+        size: size,
+      },
+    });
     return response;
   },
 
@@ -11,10 +18,10 @@ const placeService = {
     return response;
   },
 
-  getPlaceDetail: async (placeId) =>{
+  getPlaceDetail: async (placeId) => {
     const response = await axiosClient.get(`/places/${placeId}`);
     return response;
-  }
+  },
 };
 
 export default placeService;
