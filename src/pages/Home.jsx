@@ -15,9 +15,18 @@ const Home = () => {
   const [title, setTitle] = useState("");
   const [minRating, setMinRating] = useState("");
 
-  const size = 6;
+  const size = 8;
 
   const navigate = useNavigate();
+
+  const quickCategories = [
+    { name: "Cà phê", icon: "☕" },
+    { name: "Trà sữa", icon: "🧋" },
+    { name: "Quán ăn", icon: "🍜" },
+    { name: "Vỉa hè", icon: "🛵" },
+    { name: "Chụp ảnh", icon: "📸" },
+    { name: "Chill đêm", icon: "🌃" },
+  ];
 
   const fetchPlaces = async (currentPage) => {
     try {
@@ -59,16 +68,37 @@ const Home = () => {
   return (
     <Layout>
       <div className="app-container">
-        
-        {/* KHỐI 1: HEADER & NÚT THÊM QUÁN */}
-        <div className="home-header">
-          <h1 className="page-title">Khám phá Hoverse 🌍</h1>
-          <button className="add-button" onClick={() => setIsModalOpen(true)}>
-            + Thêm quán mới
+        {/* HEADER & NÚT THÊM QUÁN */}
+        <div className="hero-section">
+          <h1 className="hero-title">Khám phá thế giới quanh bạn</h1>
+          <p className="hero-subtitle">
+            Tìm kiếm hàng ngàn quán cà phê, trà sữa và địa điểm vui chơi lý
+            tưởng.
+          </p>
+
+          <button
+            className="add-button hero-add-btn"
+            onClick={() => setIsModalOpen(true)}
+          >
+            + Thêm địa điểm mới
           </button>
         </div>
 
-        {/* KHỐI 2: THANH TÌM KIẾM & LỌC */}
+        {/* LỌC NHANH */}
+        <div className="category-scroll-container">
+          {quickCategories.map((cat) => (
+            <button
+              key={cat.name}
+              onClick={() => setTitle(cat.name)}
+              className={`category-card ${title === cat.name ? "active" : ""}`}
+            >
+              <span className="category-icon">{cat.icon}</span>
+              <span className="category-name">{cat.name}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* THANH TÌM KIẾM & LỌC */}
         <div className="search-filter-panel">
           <input
             type="text"
@@ -89,16 +119,16 @@ const Home = () => {
             <option value="2">Từ 2⭐ trở lên</option>
             <option value="1">Từ 1⭐ trở lên</option>
           </select>
-          <button 
+          <button
             className="btn-search"
-            onClick={handleSearch} 
+            onClick={handleSearch}
             disabled={loading}
           >
             {loading ? "Đang tìm..." : "🔍 Tìm kiếm"}
           </button>
         </div>
 
-        {/* KHỐI 3: DANH SÁCH QUÁN VÀ TRẠNG THÁI TRỐNG */}
+        {/* DANH SÁCH QUÁN VÀ TRẠNG THÁI TRỐNG */}
         {places.length === 0 && !loading ? (
           <div className="empty-state">
             <p>Không tìm thấy địa điểm nào phù hợp với yêu cầu của bạn 😢</p>
@@ -115,10 +145,10 @@ const Home = () => {
           </div>
         )}
 
-        {/* KHỐI 4: NÚT XEM THÊM */}
+        {/* NÚT XEM THÊM */}
         {hasMore && places.length > 0 && (
-          <button 
-            className="btn-load-more" 
+          <button
+            className="btn-load-more"
             onClick={handleReadMore}
             disabled={loading}
           >
