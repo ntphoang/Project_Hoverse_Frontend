@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import placeService from "../../services/placeService";
+import categoryService from "../../services/categoryService";
 import "./AddPlaceModal.css";
 
 const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
@@ -12,6 +13,20 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     latitude: 10.8231,
     longitude: 106.6297,
   });
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await categoryService.getAllCategories();
+        setCategories(response);
+      } catch (error) {
+        console.error("Lỗi khi load data:" + error.message);
+      }
+    };
+    fetchData();
+  }, []);
 
   if (!isOpen) return null;
 
@@ -69,9 +84,13 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
               value={formData.categoryId}
               onChange={handleInputChange}
             >
-              <option value={1}>Cà phê</option>
-              <option value={2}>Quán nhậu</option>
-              <option value={3}>Boardgame</option>
+              {categories.map((category) => {
+                return (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
