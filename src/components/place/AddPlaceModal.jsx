@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import placeService from "../../services/placeService";
 import categoryService from "../../services/categoryService";
+import geocodeService from "../../services/geocodeService";
 import "./AddPlaceModal.css";
+import MapPicker from "./MapPicker";
 
 const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
   const [formData, setFormData] = useState({
@@ -10,8 +12,8 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     description: "",
     categoryId: 1,
     userId: 1,
-    latitude: 10.8231,
-    longitude: 106.6297,
+    latitude: null,
+    longitude: null,
   });
 
   const [categories, setCategories] = useState([]);
@@ -48,6 +50,18 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     }
   };
 
+  const onSelectAddress = async (latitude, longitude) => {
+    const response = await geocodeService.reverseGeocode(latitude, longitude);
+    console.log(response);
+
+    setFormData({
+      ...formData,
+      latitude: latitude,
+      longitude: longitude,
+      address: response.displayName,
+    });
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -67,14 +81,19 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
 
           <div className="form-group">
             <label>Địa chỉ (*)</label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              placeholder="Ví dụ: 12 Nguyễn Văn Bảo, Gò Vấp"
-              required
-            />
+            <div>
+              <input
+                type="text"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="Nhập địa chỉ"
+              />
+              <MapPicker
+                latitude={formData.latitude}
+                longitude={formData.longitude}
+                onSelectAddress={onSelectAddress}
+              ></MapPicker>
+            </div>
           </div>
 
           <div className="form-group">
