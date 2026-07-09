@@ -13,8 +13,22 @@ const placeService = {
     return response;
   },
 
-  createPlace: async (placeData) => {
-    const response = await axiosClient.post("/places", placeData);
+  createPlace: async (placeData,files) => {
+    const formData = new FormData();
+
+    formData.append(
+      "place",
+      new Blob(
+        [JSON.stringify(placeData)],
+        {type: "application/json"}
+      )
+    );
+
+    files.forEach(file=>{
+      formData.append("files",file);
+    })
+
+    const response = await axiosClient.post("/places", formData);
     return response;
   },
 
