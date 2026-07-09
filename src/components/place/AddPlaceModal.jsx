@@ -15,7 +15,7 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     latitude: null,
     longitude: null,
   });
-
+  const [files, setFiles] = useState([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -37,11 +37,15 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFileChange = (e) => {
+    setFiles(Array.from(e.target.files));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await placeService.createPlace(formData);
+      await placeService.createPlace(formData, files);
       onPlaceAdded();
       onClose();
       setFormData({ ...formData, title: "", address: "", description: "" });
@@ -84,6 +88,7 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
             <div>
               <input
                 type="text"
+                name="address"
                 value={formData.address}
                 onChange={handleInputChange}
                 placeholder="Nhập địa chỉ"
@@ -121,6 +126,16 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
               onChange={handleInputChange}
               rows="3"
               placeholder="Chia sẻ trải nghiệm của bạn..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Tệp đính kèm</label>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleFileChange}
             />
           </div>
 
