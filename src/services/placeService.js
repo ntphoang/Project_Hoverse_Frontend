@@ -1,32 +1,28 @@
 import axiosClient from "../api/axiosClient";
 
 const placeService = {
-  getPlaceByConditions: async (title, minRating, page, size) => {
+  getPlaceByConditions: async (page, appliedFilter, PAGE_SIZE) => {
     const response = await axiosClient.get("/places", {
       params: {
-        title: title,
-        minRating: minRating,
+        ...appliedFilter,
         page: page,
-        size: size,
+        size: PAGE_SIZE,
       },
     });
     return response;
   },
 
-  createPlace: async (placeData,files) => {
+  createPlace: async (placeData, files) => {
     const formData = new FormData();
 
     formData.append(
       "place",
-      new Blob(
-        [JSON.stringify(placeData)],
-        {type: "application/json"}
-      )
+      new Blob([JSON.stringify(placeData)], { type: "application/json" }),
     );
 
-    files.forEach(file=>{
-      formData.append("files",file);
-    })
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
 
     const response = await axiosClient.post("/places", formData);
     return response;
