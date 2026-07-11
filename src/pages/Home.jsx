@@ -4,65 +4,97 @@ import Layout from "../components/layout/Layout";
 import AddPlaceModal from "../components/place/AddPlaceModal";
 import PlaceItem from "../components/place/PlaceItem";
 import { Link, useNavigate } from "react-router-dom";
+import categoryService from "../services/categoryService";
+import IconDictionary from "../icons/iconDictionary";
+
+const PAGE_SIZE = 8;
 
 const Home = () => {
   const [places, setPlaces] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+
+  const [draftFilter, setDraftFilter] = useState({
+    title: "",
+    minRating: "",
+  });
+
+  const [appliedFilter, setAppliedFilter] = useState({
+    title: "",
+    categoryId: null,
+    minRating: "",
+  });
+
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [title, setTitle] = useState("");
-  const [minRating, setMinRating] = useState("");
-
-  const size = 8;
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const navigate = useNavigate();
 
-  const quickCategories = [
-    { name: "Cà phê", icon: "☕" },
-    { name: "Trà sữa", icon: "🧋" },
-    { name: "Quán ăn", icon: "🍜" },
-    { name: "Vỉa hè", icon: "🛵" },
-    { name: "Chụp ảnh", icon: "📸" },
-    { name: "Chill đêm", icon: "🌃" },
-  ];
-
-  const fetchPlaces = async (currentPage) => {
+  const fetchCategories = async () => {
     try {
-      setLoading(true);
-      const response = await placeService.getPlaceByConditions(
-        title,
-        minRating,
-        currentPage,
-        size,
-      );
-      if (currentPage === 0) {
-        setPlaces(response.content);
-      } else {
-        setPlaces((prev) => [...prev, ...response.content]);
-      }
-      setHasMore(!response.last);
+      const response = await categoryService.getAllCategories();
+      setCategories([
+        { id: null, name: "Tất cả", iconName: "All" },
+        ...response,
+      ]);
     } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu:", error.message);
-    } finally {
-      setLoading(false);
+      console.error("Lỗi khi load category: ", error.message);
     }
   };
 
   useEffect(() => {
-    fetchPlaces(0);
+    fetchCategories();
   }, []);
 
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        setLoading(true);
+        const response = await placeService.getPlaceByConditions(
+          page,
+          appliedFilter,
+          PAGE_SIZE,
+        );
+        if (page === 0) {
+          setPlaces(response.content);
+        } else {
+          setPlaces((prev) => [...prev, ...response.content]);
+        }
+        setHasMore(!response.last);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPlaces();
+  }, [page, appliedFilter, refreshTrigger]);
+
   const handleSearch = () => {
+    setAppliedFilter((prev) => ({
+      ...prev,
+      title: draftFilter.title,
+      minRating: draftFilter.minRating,
+    }));
     setPage(0);
-    fetchPlaces(0);
   };
 
   const handleReadMore = () => {
-    const nextPage = page + 1;
-    fetchPlaces(nextPage);
-    setPage((page) => page + 1);
+    setPage((prev) => prev + 1);
+  };
+
+  const handleSelectCategory = (categoryId) => {
+    setAppliedFilter((prev) => ({ ...prev, categoryId }));
+    setPage(0);
+  };
+
+  const handlePlaceAdded = () => {
+    setPage(0);
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   return (
@@ -86,13 +118,16 @@ const Home = () => {
 
         {/* LỌC NHANH */}
         <div className="category-scroll-container">
-          {quickCategories.map((cat) => (
+          {categories.map((cat) => (
             <button
-              key={cat.name}
-              onClick={() => setTitle(cat.name)}
-              className={`category-card ${title === cat.name ? "active" : ""}`}
+              key={cat.id}
+              onClick={() => handleSelectCategory(cat.id)}
+              className={`category-card ${appliedFilter.categoryId === cat.id ? "active" : ""}`}
             >
-              <span className="category-icon">{cat.icon}</span>
+              <IconDictionary
+                iconName={cat.iconName}
+                className="category-icon"
+              ></IconDictionary>
               <span className="category-name">{cat.name}</span>
             </button>
           ))}
@@ -104,14 +139,21 @@ const Home = () => {
             type="text"
             className="search-input"
             placeholder="Nhập địa điểm cần tìm..."
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={draftFilter.title}
+            onChange={(e) =>
+              setDraftFilter((prev) => ({ ...prev, title: e.target.value }))
+            }
+            onKeyDown={(e) => {
+              if (key.e === "ENTER") handleSearch();
+            }}
           />
           <select
             className="search-select"
             name="rating"
-            onChange={(e) => setMinRating(e.target.value)}
-            value={minRating}
+            value={draftFilter.minRating}
+            onChange={(e) =>
+              setDraftFilter((prev) => ({ ...prev, minRating: e.target.value }))
+            }
           >
             <option value="">Tất cả đánh giá</option>
             <option value="4">Từ 4⭐ trở lên</option>
@@ -159,10 +201,7 @@ const Home = () => {
         <AddPlaceModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onPlaceAdded={() => {
-            setPage(0);
-            fetchPlaces(0);
-          }}
+          onPlaceAdded={handlePlaceAdded}
         />
       </div>
     </Layout>
