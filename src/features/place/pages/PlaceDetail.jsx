@@ -3,10 +3,8 @@ import { useParams } from "react-router-dom";
 import "./PlaceDetail.css";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import AddReviewModal from "@/features/review/components/AddReviewModal";
-import ReviewList from "@/features/review/components/ReviewList";
-import placeService from "@/services/placeService";
-import reviewService from "@/features/review/services/reviewService";
+import { AddReviewModal, ReviewList, reviewService } from "@/features/review";
+import placeService from "../services/placeService";
 
 const PlaceDetail = () => {
   const [place, setPlace] = useState({});

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Auth.css";
 import { Link, useNavigate } from "react-router-dom";
-import axiosClient from "../../../api/axiosClient";
+import axiosClient from "@/api/axiosClient";
 
 const Register = () => {
   const [formData, setFormData] = useState({

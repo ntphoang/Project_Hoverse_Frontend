@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Auth.css";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import axiosClient from "../../../api/axiosClient";
+import axiosClient from "@/api/axiosClient";
 
 const Login = () => {
   const { login } = useAuth();

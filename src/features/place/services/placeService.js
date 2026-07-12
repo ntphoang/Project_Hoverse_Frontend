@@ -1,4 +1,4 @@
-import axiosClient from "../api/axiosClient";
+import axiosClient from "@/api/axiosClient";
 
 const placeService = {
   getPlaceByConditions: async (page, appliedFilter, PAGE_SIZE) => {

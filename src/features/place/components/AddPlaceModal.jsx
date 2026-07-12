@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import placeService from "@/services/placeService";
-import categoryService from "@/features/category/services/categoryService";
+import placeService from "../services/placeService";
+import {categoryService} from "@/features/category";
 import geocodeService from "@/services/geocodeService";
 import "./AddPlaceModal.css";
 import MapPicker from "./MapPicker";
