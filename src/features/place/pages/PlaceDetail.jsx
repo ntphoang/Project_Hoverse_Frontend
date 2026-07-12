@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import placeService from "../services/placeService";
 import "./PlaceDetail.css";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
-import AddReviewModal from "../components/review/AddReviewModal";
-import axiosClient from "../api/axiosClient";
-import reviewService from "../services/reviewService";
-import ReviewList from "../components/review/ReviewList";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import AddReviewModal from "@/features/review/components/AddReviewModal";
+import ReviewList from "@/features/review/components/ReviewList";
+import placeService from "@/services/placeService";
+import reviewService from "@/features/review/services/reviewService";
 
 const PlaceDetail = () => {
   const [place, setPlace] = useState({});

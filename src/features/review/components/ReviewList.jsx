@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import reviewService from "../../services/reviewService";
+import reviewService from "../services/reviewService";
 import ReviewItem from "./ReviewItem";
-import "./ReviewList.css"
+import "./ReviewList.css";
 
 const ReviewList = ({ placeId }) => {
   const [reviews, setReviews] = useState([]);

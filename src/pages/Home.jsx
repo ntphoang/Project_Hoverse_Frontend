@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import placeService from "../services/placeService";
-import Layout from "../components/common/Layout";
-import AddPlaceModal from "../components/place/AddPlaceModal";
-import PlaceItem from "../components/place/PlaceItem";
+import Layout from "../layouts/Layout";
+import { AddPlaceModal, PlaceItem } from "@/features/place";
 import { Link, useNavigate } from "react-router-dom";
-import categoryService from "../services/categoryService";
-import IconDictionary from "../icons/iconDictionary";
+import categoryService from "../features/category/services/categoryService";
+import IconDictionary from "../components/ui/IconDictionary";
 
 const PAGE_SIZE = 8;
 

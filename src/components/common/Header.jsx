@@ -1,5 +1,5 @@
 import "./Header.css";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
