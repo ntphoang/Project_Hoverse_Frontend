@@ -4,4 +4,6 @@ export { default as MapPicker } from "./components/MapPicker";
 
 export { default as PlaceDetail } from "./pages/PlaceDetail";
 
+export { default as usePlaces } from "./hooks/usePlaces";
+
 export { default as placeService } from "./services/placeService";
