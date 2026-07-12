@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import placeService from "../services/placeService";
-import Layout from "../components/layout/Layout";
+import Layout from "../components/common/Layout";
 import AddPlaceModal from "../components/place/AddPlaceModal";
 import PlaceItem from "../components/place/PlaceItem";
 import { Link, useNavigate } from "react-router-dom";
