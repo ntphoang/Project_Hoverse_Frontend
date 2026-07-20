@@ -24,7 +24,7 @@
   animation: slideUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   height: 90vh;
   overflow-y: auto;
-   /* Firefox */
+  /* Firefox */
   scrollbar-width: none;
 
   /* IE cũ */
@@ -34,7 +34,6 @@
 .modal-content::-webkit-scrollbar {
   display: none;
 }
-
 
 .modal-title {
   margin-top: 0;
@@ -126,6 +125,35 @@
   background-color: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
+}
+
+.btn-tag {
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  border: 1px solid #e5e7eb;
+
+  background: white;
+
+  color: var(--text-secondary);
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+
+  margin: 0 8px 8px 0;
+}
+
+.btn-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.btn-tag.selected{
+  background-color: var(--accent-hover);
+  color: white;
 }
 
 @keyframes fadeIn {

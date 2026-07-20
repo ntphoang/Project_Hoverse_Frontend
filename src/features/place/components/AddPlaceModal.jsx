@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import placeService from "../services/placeService";
-import {categoryService} from "@/features/category";
+import { categoryService } from "@/features/category";
 import geocodeService from "@/services/geocodeService";
 import "./AddPlaceModal.css";
 import MapPicker from "./MapPicker";
+import { tagService } from "@/features/tag";
 
 const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
   const [formData, setFormData] = useState({
@@ -14,15 +15,20 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     userId: 1,
     latitude: null,
     longitude: null,
+    tagIds: [],
   });
   const [files, setFiles] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await categoryService.getAllCategories();
-        setCategories(response);
+        const responseCategory = await categoryService.getAllCategories();
+        setCategories(responseCategory);
+
+        const responseTag = await tagService.getAllTags();
+        setTags(responseTag);
       } catch (error) {
         console.error("Lỗi khi load data:" + error.message);
       }
@@ -48,7 +54,13 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
       await placeService.createPlace(formData, files);
       onPlaceAdded();
       onClose();
-      setFormData({ ...formData, title: "", address: "", description: "" });
+      setFormData({
+        ...formData,
+        title: "",
+        address: "",
+        description: "",
+        tagIds: [],
+      });
     } catch (error) {
       alert("Có lỗi xảy ra khi thêm địa điểm: " + error.message);
     }
@@ -63,6 +75,19 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
       latitude: latitude,
       longitude: longitude,
       address: response.displayName,
+    });
+  };
+
+  const handleSelectTag = (tagId) => {
+    setFormData((prev) => {
+      const exist = prev.tagIds.includes(tagId);
+
+      return {
+        ...prev,
+        tagIds: exist
+          ? prev.tagIds.filter((id) => id !== tagId)
+          : [...prev.tagIds, tagId],
+      };
     });
   };
 
@@ -137,6 +162,20 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
               accept="image/*"
               onChange={handleFileChange}
             />
+          </div>
+
+          <div className="form-group">
+            <label>Tiện ích</label>
+            {tags.map((tag) => (
+              <button
+                type="button"
+                key={tag.id}
+                className={`btn-tag ${formData.tagIds.includes(tag.id) ? "selected" : ""}`}
+                onClick={() => handleSelectTag(tag.id)}
+              >
+                {tag.name}
+              </button>
+            ))}
           </div>
 
           <div className="modal-actions">
