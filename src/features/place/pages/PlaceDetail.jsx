@@ -90,6 +90,12 @@ const PlaceDetail = () => {
             <p className="pd-description">
               {place.description || "Chưa có mô tả cho địa điểm này."}
             </p>
+            <h2 className="pd-section-title">Tiện ích</h2>
+            <p>
+              {place.tags.map((tag) => (
+                <button type="button" className="btn-tag">{tag.name}</button>
+              ))}
+            </p>
 
             <h2 className="pd-section-title" style={{ marginTop: "30px" }}>
               Đánh giá từ cộng đồng
