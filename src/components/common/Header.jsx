@@ -1,6 +1,7 @@
-import "./Header.css";
+import styles from "./Header.module.css";
 import { useAuth } from "@/features/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
+import logo from "@/assets/logo.jpg";
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -12,32 +13,74 @@ export default function Header() {
   };
 
   return (
-    <header className="modern-header">
-      <div className="header-container">
-        <Link to="/" className="logo-container">
-          <span className="logo-icon">✨</span>
-          <h1 className="logo-text">Hoverse</h1>
+    <header className={styles.modernHeader}>
+      <div className={styles.headerContainer}>
+        <Link to="/" className={styles.logoContainer}>
+          <h1 className={styles.logoText}>Hoverse</h1>
         </Link>
 
-        <nav className="nav-menu">
+        <ul className={styles.navLinks}>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.linkItem} ${styles.active}`
+                  : styles.linkItem
+              }
+              end
+            >
+              Trang chủ
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/favorites"
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.linkItem} ${styles.active}`
+                  : styles.linkItem
+              }
+            >
+              Yêu thích
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.linkItem} ${styles.active}`
+                  : styles.linkItem
+              }
+            >
+              Giới thiệu
+            </NavLink>
+          </li>
+        </ul>
+
+        <nav className={styles.navMenu}>
           {user ? (
-            <div className="user-info">
-              <div className="user-avatar">
-                {user.email.charAt(0).toUpperCase()}
-              </div>
-              <span className="user-greeting">
-                Xin chào, <b>{user.email.split("@")[0]}</b>!
-              </span>
-              <button className="btn-logout" onClick={handleLogout}>
+            <div className={styles.userInfo}>
+              <Link to="/users/me" className={styles.profileLink}>
+                <div className={styles.userAvatar}>
+                  {user.email.charAt(0).toUpperCase()}
+                </div>
+                <span className={styles.userGreeting}>
+                  Xin chào, <b>{user.email.split("@")[0]}</b>!
+                </span>
+              </Link>
+
+              <button className={styles.btnLogout} onClick={handleLogout}>
                 Đăng xuất
               </button>
             </div>
           ) : (
-            <div className="auth-links">
-              <Link to="/login" className="btn-login">
+            <div className={styles.authLinks}>
+              <Link to="/login" className={styles.btnLogin}>
                 Đăng nhập
               </Link>
-              <Link to="/register" className="btn-register">
+              <Link to="/register" className={styles.btnRegister}>
                 Đăng ký
               </Link>
             </div>
