@@ -1,7 +1,6 @@
 import styles from "./Header.module.css";
 import { useAuth } from "@/features/auth";
 import { Link, useNavigate, NavLink } from "react-router-dom";
-import logo from "@/assets/logo.jpg";
 
 export default function Header() {
   const { user, logout } = useAuth();
