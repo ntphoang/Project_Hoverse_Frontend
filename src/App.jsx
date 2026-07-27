@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "@/pages/Home";
 import { Login, Register } from "@/features/auth";
 import { ProfilePage } from "@/features/user";
