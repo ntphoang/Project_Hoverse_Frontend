@@ -4,29 +4,34 @@
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   margin-bottom: 15px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .review-item:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
 }
 
-/* Cụm thông tin phía trên */
-.review-top {
+/* --- TẦNG 1: HEADER --- */
+.review-header {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 15px;
 }
 
+.review-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .img-avatar {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%; 
   object-fit: cover; 
-  border: 2px solid var(--border-color);
+  border: 1px solid var(--border-color);
 }
 
 .review-meta {
@@ -36,64 +41,67 @@
 
 .reviewer-name {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text-primary);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .review-date {
   margin: 0;
-  margin-top: 2px;
-  font-size: 0.85rem;
+  margin-top: 3px;
+  font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
-/* Cụm nội dung phía dưới */
-.review-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--bg-main); 
-  padding: 15px;
-  border-radius: var(--radius-sm);
-  gap: 20px;
-}
-
-.review-content {
-  flex: 1; 
-}
-
-.review-content p {
-  margin: 0;
-  color: var(--text-primary);
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-/* Khu vực điểm số */
-.review-rating {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 80px;
-  padding-left: 20px;
-  border-left: 1px dashed var(--border-color); 
-}
-
-.rating-number {
-  margin: 0;
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  font-weight: 800;
-}
-
-.stars {
+.review-rating .stars {
   display: flex;
   gap: 2px;
-  margin-top: 5px;
 }
 
 .star-icon {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
+}
+
+.star-icon.active {
+  color: #fbbf24; 
+}
+
+.star-icon.inactive {
+  color: var(--border-color); 
+}
+
+/* --- TẦNG 2: BODY (Nội dung) --- */
+.review-body {
+  margin-bottom: 15px;
+  background-color: var(--bg-main); 
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.review-content {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* --- TẦNG 3: GALLERY (Lưới ảnh) --- */
+.review-gallery {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 10px;
+}
+
+.review-media-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover; 
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.review-media-img:hover {
+  opacity: 0.8;
 }
