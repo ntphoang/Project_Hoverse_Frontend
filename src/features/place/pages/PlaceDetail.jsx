@@ -1,68 +1,56 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./PlaceDetail.css";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import { AddReviewModal, ReviewList, reviewService } from "@/features/review";
-import placeService from "../services/placeService";
+import { AddReviewModal, ReviewList, useReviewCreate } from "@/features/review";
 import { useAuth } from "@/features/auth";
 import MapPicker from "../components/MapPicker";
+import usePlaceDetail from "../hooks/usePlaceDetail";
 
 const PlaceDetail = () => {
-  const [place, setPlace] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { placeId } = useParams();
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchPlace = async () => {
-      try {
-        setLoading(true);
-        setError("");
-        const placeResponse = await placeService.getPlaceDetail(placeId);
-        setPlace(placeResponse);
-      } catch (err) {
-        setError(err.response?.data?.message || "Đã xảy ra lỗi");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { place, isLoading, error: placeDetailError } = usePlaceDetail(placeId);
+  const {
+    isSubmitting,
+    error: reviewCreateError,
+    submitReview,
+  } = useReviewCreate();
 
-    fetchPlace();
-  }, [placeId]);
-
-  const handleCreateReview = async ({ rating, content }) => {
+  const handleCreateReview = async ({ rating, content, files }) => {
     try {
-      setIsSubmitting(true);
-      const reviewData = { rating, content };
-      await reviewService.createReview(placeId, reviewData);
+      await submitReview(placeId, { rating, content }, files);
       setIsModalOpen(false);
-      setPlace((prev) => ({ ...prev, reviewCount: prev.reviewCount + 1 }));
-    } catch (error) {
-      console.error("Lỗi khi thêm đánh giá", error);
-    } finally {
-      setIsSubmitting(false);
+      setRefreshTrigger((prev) => prev + 1);
+      alert("Cảm ơn đánh giá của bạn!");
+    } catch (err) {
+      alert("Có lỗi xảy ra khi thêm review: " + err);
     }
   };
 
-  if (loading)
+  if (isLoading)
     return (
       <div className="pd-container pd-center-msg">
         <h2 style={{ color: "var(--text-primary)" }}>Đang tải dữ liệu...</h2>
       </div>
     );
 
-  if (error)
+  if (placeDetailError)
     return (
       <div className="pd-container pd-center-msg">
-        <h2 style={{ color: "var(--danger-color)" }}>{error}</h2>
+        <h2 style={{ color: "var(--danger-color)" }}>{placeDetailError}</h2>
       </div>
     );
 
-  const { user } = useAuth();
+  if (reviewCreateError) {
+    console.log("Thêm review thất bại: " + reviewCreateError);
+  }
+
   const isAuthor = user?.email === place.authorEmail || user?.role === "ADMIN";
 
   return (
@@ -134,9 +122,9 @@ const PlaceDetail = () => {
             )}
 
             <h2 className="pd-section-title" style={{ marginTop: "40px" }}>
-              Đánh giá từ cộng đồng
+              Đánh giá từ cộng đồng ({place.reviewCount})
             </h2>
-            <ReviewList placeId={place.id} />
+            <ReviewList placeId={place.id} refreshTrigger={refreshTrigger} />
           </div>
 
           <div className="pd-sidebar">
@@ -175,12 +163,13 @@ const PlaceDetail = () => {
       </div>
       <Footer />
 
-      <AddReviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleCreateReview}
-        isSubmitting={isSubmitting}
-      />
+      {isModalOpen && (
+        <AddReviewModal
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleCreateReview}
+          isSubmitting={isSubmitting}
+        />
+      )}
     </div>
   );
 };
