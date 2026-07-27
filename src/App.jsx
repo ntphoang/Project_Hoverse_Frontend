@@ -5,7 +5,7 @@ import Home from "@/pages/Home";
 import { Login, Register } from "@/features/auth";
 import { ProfilePage } from "@/features/user";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
-import { PlaceDetail } from "@/features/place";
+import { PlaceDetail, PlaceUpdate } from "@/features/place";
 
 function App() {
   return (
@@ -20,6 +20,10 @@ function App() {
 
       <Route element={<ProtectedRoute></ProtectedRoute>}>
         <Route path="/users/me" element={<ProfilePage></ProfilePage>}></Route>
+        <Route
+          path={`edit-place/:placeId`}
+          element={<PlaceUpdate></PlaceUpdate>}
+        ></Route>
       </Route>
     </Routes>
   );
