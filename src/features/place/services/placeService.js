@@ -32,6 +32,11 @@ const placeService = {
     const response = await axiosClient.get(`/places/${placeId}`);
     return response;
   },
+
+  updatePlace: async (placeId, submitData) => {
+    const response = await axiosClient.put(`/places/${placeId}`, submitData);
+    return response;
+  },
 };
 
 export default placeService;
