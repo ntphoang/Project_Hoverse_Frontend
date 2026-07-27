@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./PlaceDetail.css";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { AddReviewModal, ReviewList, reviewService } from "@/features/review";
 import placeService from "../services/placeService";
+import { useAuth } from "@/features/auth";
+import MapPicker from "../components/MapPicker";
 
 const PlaceDetail = () => {
   const [place, setPlace] = useState({});
@@ -35,12 +37,9 @@ const PlaceDetail = () => {
   const handleCreateReview = async ({ rating, content }) => {
     try {
       setIsSubmitting(true);
-
       const reviewData = { rating, content };
-      const reviewSaved = await reviewService.createReview(placeId, reviewData);
-
+      await reviewService.createReview(placeId, reviewData);
       setIsModalOpen(false);
-
       setPlace((prev) => ({ ...prev, reviewCount: prev.reviewCount + 1 }));
     } catch (error) {
       console.error("Lỗi khi thêm đánh giá", error);
@@ -51,22 +50,25 @@ const PlaceDetail = () => {
 
   if (loading)
     return (
-      <div className="pd-container">
+      <div className="pd-container pd-center-msg">
         <h2 style={{ color: "var(--text-primary)" }}>Đang tải dữ liệu...</h2>
       </div>
     );
+
   if (error)
     return (
-      <div className="pd-container">
+      <div className="pd-container pd-center-msg">
         <h2 style={{ color: "var(--danger-color)" }}>{error}</h2>
       </div>
     );
 
+  const { user } = useAuth();
+  const isAuthor = user?.email === place.authorEmail || user?.role === "ADMIN";
+
   return (
     <div>
-      <Header></Header>
+      <Header />
       <div className="pd-container">
-        {/* KHỐI 1: HERO COVER */}
         <div className="pd-hero">
           <img
             src={
@@ -76,41 +78,80 @@ const PlaceDetail = () => {
             alt={place.title}
             className="pd-cover-image"
           />
+
+          {isAuthor && (
+            <Link
+              to={`/edit-place/${placeId}`}
+              className="pd-btn-edit-floating"
+            >
+              ✏️ Chỉnh sửa
+            </Link>
+          )}
+
           <div className="pd-hero-overlay">
             <span className="pd-badge">{place.categoryName || "Khám phá"}</span>
             <h1 className="pd-title">{place.title}</h1>
           </div>
         </div>
 
-        {/* KHỐI 2: MAIN GRID */}
         <div className="pd-content-grid">
-          {/* CỘT TRÁI */}
           <div className="pd-main-info">
+            <div className="pd-author-card">
+              Đăng bởi: <strong>{place.authorName || "Người ẩn danh"}</strong>
+            </div>
+
             <h2 className="pd-section-title">Giới thiệu</h2>
             <p className="pd-description">
               {place.description || "Chưa có mô tả cho địa điểm này."}
             </p>
-            <h2 className="pd-section-title">Tiện ích</h2>
-            <p>
-              {place.tags.map((tag) => (
-                <button type="button" className="btn-tag">{tag.name}</button>
-              ))}
-            </p>
 
-            <h2 className="pd-section-title" style={{ marginTop: "30px" }}>
+            {place.placeMediaList && place.placeMediaList.length > 0 && (
+              <>
+                <h2 className="pd-section-title">Hình ảnh nổi bật</h2>
+                <div className="pd-gallery-grid">
+                  {place.placeMediaList.map((media) => (
+                    <img
+                      key={media.id}
+                      src={media.url}
+                      alt="Gallery"
+                      className="pd-gallery-img"
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+            {place.tag && place.tag.length > 0 && (
+              <>
+                <h2 className="pd-section-title">Tiện ích</h2>
+                <div className="pd-tags-wrapper">
+                  {place.tags?.map((tag) => (
+                    <span key={tag.id} className="pd-tag-item">
+                      {tag.name}
+                    </span>
+                  ))}
+                </div>
+              </>
+            )}
+
+            <h2 className="pd-section-title" style={{ marginTop: "40px" }}>
               Đánh giá từ cộng đồng
             </h2>
-            <div className="pd-description">
-              <ReviewList placeId={place.id}></ReviewList>
-            </div>
+            <ReviewList placeId={place.id} />
           </div>
 
-          {/* CỘT PHẢI (STICKY) */}
           <div className="pd-sidebar">
+            <div className="pd-info-row">
+              <MapPicker
+                latitude={place.latitude}
+                longitude={place.longitude}
+              ></MapPicker>
+            </div>
+
             <div className="pd-info-row">
               <span>📍</span>
               <span>{place.address}</span>
             </div>
+
             <div className="pd-info-row">
               <span>⭐</span>
               <span>
@@ -132,14 +173,14 @@ const PlaceDetail = () => {
           </div>
         </div>
       </div>
-      <Footer></Footer>
+      <Footer />
 
       <AddReviewModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleCreateReview}
         isSubmitting={isSubmitting}
-      ></AddReviewModal>
+      />
     </div>
   );
 };
