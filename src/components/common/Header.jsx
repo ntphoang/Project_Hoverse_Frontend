@@ -63,7 +63,7 @@ export default function Header() {
                 className="flex items-center gap-2 pr-4 pl-1.5 py-1.5 rounded-full hover:bg-slate-100 transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50"
               >
                 {/* Avatar */}
-                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-accent-500 to-accent-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center font-bold text-sm shadow-sm">
                   {user.email.charAt(0).toUpperCase()}
                 </div>
                 <span className="hidden sm:block text-slate-900 text-sm font-semibold truncate max-w-[120px]">

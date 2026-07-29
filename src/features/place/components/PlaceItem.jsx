@@ -9,6 +9,7 @@ const PlaceItem = ({ place, onClick }) => {
     reviewCount,
     coverImageUrl,
     authorName,
+    createdAt,
   } = place;
 
   const fallbackImage =
@@ -58,12 +59,21 @@ const PlaceItem = ({ place, onClick }) => {
           <p>{address}</p>
         </div>
 
-        <div className="mt-auto pt-4 border-t border-slate-100 flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0">
-            {author.charAt(0).toUpperCase()}
+        {/* Phần Footer của Card */}
+        <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+          {/* Cụm Tác giả (Bên trái) */}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0">
+              {author.charAt(0).toUpperCase()}
+            </div>
+            <span className="text-sm font-medium text-slate-600 truncate">
+              Bởi {author}
+            </span>
           </div>
-          <span className="text-sm font-medium text-slate-600 truncate">
-            Bởi {author}
+
+          {/* Cụm Ngày đăng (Bên phải) */}
+          <span className="text-xs text-slate-400 shrink-0">
+            {new Date(createdAt).toLocaleDateString("vi-VN")}
           </span>
         </div>
       </div>
