@@ -37,6 +37,11 @@ const placeService = {
     const response = await axiosClient.put(`/places/${placeId}`, submitData);
     return response;
   },
+
+  toggleFavorite: async (placeId) => {
+    const response = await axiosClient.post(`/places/${placeId}/favorite`);
+    return response;
+  },
 };
 
 export default placeService;
