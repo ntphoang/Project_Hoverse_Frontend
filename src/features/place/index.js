@@ -7,5 +7,6 @@ export { default as PlaceUpdate } from "./pages/PlaceUpdate";
 
 export { default as useFetchPlaces } from "./hooks/useFetchPlaces";
 export { default as usePlaceFilter } from "./hooks/usePlaceFilter";
+export { default as useFetchFavorites } from "./hooks/useFetchFavorites";
 
 export { default as placeService } from "./services/placeService";

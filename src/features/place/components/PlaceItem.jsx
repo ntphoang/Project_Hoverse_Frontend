@@ -1,4 +1,5 @@
-import { Star, MapPin } from "lucide-react";
+import { useFavoritesStore } from "@/store";
+import { Star, MapPin, Heart } from "lucide-react";
 
 const PlaceItem = ({ place, onClick }) => {
   const {
@@ -17,6 +18,16 @@ const PlaceItem = ({ place, onClick }) => {
   const displayImage = coverImageUrl ? coverImageUrl : fallbackImage;
   const author = authorName || "Anonymous";
 
+  const favoriteIds = useFavoritesStore((state) => state.favoriteIds);
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+  const isFavorite = favoriteIds.includes(place.id);
+
+  // Hàm xử lý riêng cho nút lưu để tránh lan truyền sự kiện click ra ngoài Card
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation(); // Cực kỳ quan trọng: Ngăn chặn event click kích hoạt thẻ <article>
+    toggleFavorite(place.id);
+  };
+
   return (
     <article
       onClick={onClick}
@@ -31,9 +42,28 @@ const PlaceItem = ({ place, onClick }) => {
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+
+        {/* Category Badge */}
         <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-slate-900 text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm">
           {categoryName}
         </div>
+
+        {/* NÚT LƯU ĐỊA ĐIỂM (FLOATING ICON BUTTON) */}
+        <button
+          type="button"
+          onClick={handleFavoriteClick}
+          aria-label={isFavorite ? "Bỏ lưu địa điểm" : "Lưu địa điểm"}
+          className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full shadow-sm transition-all duration-200 hover:bg-white active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 z-10"
+        >
+          <Heart
+            size={18}
+            className={`transition-all duration-300 ${
+              isFavorite
+                ? "fill-slate-900 text-slate-900 scale-110"
+                : "text-slate-400 hover:text-slate-900"
+            }`}
+          />
+        </button>
       </div>
 
       <div className="p-4 md:p-5 flex flex-col flex-1">
@@ -61,17 +91,17 @@ const PlaceItem = ({ place, onClick }) => {
 
         {/* Phần Footer của Card */}
         <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-          {/* Cụm Tác giả (Bên trái) */}
+          {/* Cụm Tác giả */}
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0">
               {author.charAt(0).toUpperCase()}
             </div>
-            <span className="text-sm font-medium text-slate-600 truncate">
+            <span className="text-sm font-medium text-slate-600 truncate max-w-[120px]">
               Bởi {author}
             </span>
           </div>
 
-          {/* Cụm Ngày đăng (Bên phải) */}
+          {/* Cụm Ngày đăng */}
           <span className="text-xs text-slate-400 shrink-0">
             {new Date(createdAt).toLocaleDateString("vi-VN")}
           </span>

@@ -7,6 +7,7 @@ import { useAuth } from "@/features/auth";
 import MapPicker from "../components/MapPicker";
 import usePlaceDetail from "../hooks/usePlaceDetail";
 import { MapPin, Star, Edit3, Heart, PenLine } from "lucide-react";
+import { useFavoritesStore } from "@/store";
 
 const PlaceDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,6 +15,9 @@ const PlaceDetail = () => {
 
   const { placeId } = useParams();
   const { user } = useAuth();
+
+  const favoriteIds = useFavoritesStore((state) => state.favoriteIds);
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
 
   const { place, isLoading, error: placeDetailError } = usePlaceDetail(placeId);
   const {
@@ -44,7 +48,9 @@ const PlaceDetail = () => {
   if (placeDetailError)
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center bg-slate-50 px-4 text-center">
-        <h2 className="text-xl md:text-2xl font-bold text-danger mb-2">Đã xảy ra lỗi</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-danger mb-2">
+          Đã xảy ra lỗi
+        </h2>
         <p className="text-slate-600">{placeDetailError}</p>
       </div>
     );
@@ -54,6 +60,7 @@ const PlaceDetail = () => {
   }
 
   const isAuthor = user?.email === place.authorEmail || user?.role === "ADMIN";
+  const isFavorite = favoriteIds.includes(place.id); // Trích xuất state để code UI clean hơn
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50">
@@ -62,12 +69,15 @@ const PlaceDetail = () => {
       <main className="flex-grow -mt-16">
         <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] bg-slate-900">
           <img
-            src={place.coverImageUrl || "https://images.unsplash.com/photo-1554118811-1e0d58224f24"}
+            src={
+              place.coverImageUrl ||
+              "https://images.unsplash.com/photo-1554118811-1e0d58224f24"
+            }
             alt={place.title}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-          
+
           <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 pb-10 md:pb-16">
             <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
               <span className="bg-white/20 backdrop-blur-md text-white text-xs md:text-sm font-semibold px-3 py-1.5 rounded-full border border-white/30">
@@ -92,7 +102,6 @@ const PlaceDetail = () => {
 
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-            
             <div className="lg:col-span-2 space-y-10 md:space-y-12">
               <div className="flex items-center gap-4 p-4 md:p-5 bg-white rounded-2xl border border-slate-100 shadow-sm">
                 <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0">
@@ -100,23 +109,33 @@ const PlaceDetail = () => {
                 </div>
                 <div>
                   <p className="text-sm text-slate-500 font-medium">Đăng bởi</p>
-                  <p className="text-base font-bold text-slate-900">{place.authorName || "Người ẩn danh"}</p>
+                  <p className="text-base font-bold text-slate-900">
+                    {place.authorName || "Người ẩn danh"}
+                  </p>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold font-heading text-slate-900 mb-4 tracking-tight">Giới thiệu</h2>
+                <h2 className="text-2xl font-bold font-heading text-slate-900 mb-4 tracking-tight">
+                  Giới thiệu
+                </h2>
                 <p className="text-slate-600 leading-relaxed text-base md:text-lg whitespace-pre-line">
-                  {place.description || "Chưa có mô tả chi tiết cho địa điểm này."}
+                  {place.description ||
+                    "Chưa có mô tả chi tiết cho địa điểm này."}
                 </p>
               </div>
 
               {place.placeMediaList && place.placeMediaList.length > 0 && (
                 <div>
-                  <h2 className="text-2xl font-bold font-heading text-slate-900 mb-4 tracking-tight">Hình ảnh nổi bật</h2>
+                  <h2 className="text-2xl font-bold font-heading text-slate-900 mb-4 tracking-tight">
+                    Hình ảnh nổi bật
+                  </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                     {place.placeMediaList.map((media) => (
-                      <div key={media.id} className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden bg-slate-100 group">
+                      <div
+                        key={media.id}
+                        className="relative aspect-square rounded-xl md:rounded-2xl overflow-hidden bg-slate-100 group"
+                      >
                         <img
                           src={media.url}
                           alt="Gallery"
@@ -131,7 +150,9 @@ const PlaceDetail = () => {
 
               {place.tags && place.tags.length > 0 && (
                 <div>
-                  <h2 className="text-2xl font-bold font-heading text-slate-900 mb-4 tracking-tight">Tiện ích</h2>
+                  <h2 className="text-2xl font-bold font-heading text-slate-900 mb-4 tracking-tight">
+                    Tiện ích
+                  </h2>
                   <div className="flex flex-wrap gap-2.5">
                     {place.tags.map((tag) => (
                       <span
@@ -147,15 +168,20 @@ const PlaceDetail = () => {
 
               <div className="pt-6 md:pt-10 border-t border-slate-200">
                 <h2 className="text-2xl md:text-3xl font-bold font-heading text-slate-900 mb-6 md:mb-8 tracking-tight">
-                  Đánh giá từ cộng đồng <span className="text-slate-400 text-xl font-normal">({place.reviewCount})</span>
+                  Đánh giá từ cộng đồng{" "}
+                  <span className="text-slate-400 text-xl font-normal">
+                    ({place.reviewCount})
+                  </span>
                 </h2>
-                <ReviewList placeId={place.id} refreshTrigger={refreshTrigger} />
+                <ReviewList
+                  placeId={place.id}
+                  refreshTrigger={refreshTrigger}
+                />
               </div>
             </div>
 
             <div className="lg:col-span-1">
               <div className="sticky top-24 flex flex-col gap-6">
-                
                 <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex flex-col gap-6">
                   <div className="w-full h-[200px] md:h-[250px] rounded-2xl overflow-hidden relative z-0 border border-slate-100 bg-slate-50">
                     <MapPicker
@@ -165,14 +191,24 @@ const PlaceDetail = () => {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <MapPin className="text-slate-400 shrink-0 mt-0.5" size={20} />
-                    <p className="text-slate-700 font-medium leading-relaxed">{place.address}</p>
+                    <MapPin
+                      className="text-slate-400 shrink-0 mt-0.5"
+                      size={20}
+                    />
+                    <p className="text-slate-700 font-medium leading-relaxed">
+                      {place.address}
+                    </p>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Star className="fill-slate-900 text-slate-900 shrink-0" size={20} />
+                    <Star
+                      className="fill-slate-900 text-slate-900 shrink-0"
+                      size={20}
+                    />
                     <p className="text-slate-900 font-bold text-lg">
-                      {place.avgRating ? `${place.avgRating} / 5.0` : "Chưa có đánh giá"}
+                      {place.avgRating
+                        ? `${place.avgRating} / 5.0`
+                        : "Chưa có đánh giá"}
                     </p>
                   </div>
 
@@ -180,20 +216,37 @@ const PlaceDetail = () => {
 
                   <button
                     onClick={() => setIsModalOpen(true)}
-                    className="w-full py-3.5 px-4 bg-black text-white rounded-full font-semibold text-sm hover:bg-slate-800 hover:-translate-y-0.5 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-4 bg-slate-900 text-white rounded-full font-semibold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 flex items-center justify-center gap-2"
                   >
                     <PenLine size={18} />
                     Viết đánh giá
                   </button>
 
+                  {/* NÚT LƯU ĐỊA ĐIỂM ĐÃ ĐƯỢC TỐI ƯU */}
                   <button
-                    className="w-full py-3.5 px-4 bg-white text-slate-900 border border-slate-200 rounded-full font-semibold text-sm hover:bg-slate-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 flex items-center justify-center gap-2 group"
+                    onClick={() => toggleFavorite(place.id)}
+                    className={`
+                      w-full py-3.5 px-4 rounded-full font-semibold text-sm flex items-center justify-center gap-2 
+                      transition-all duration-200 active:scale-[0.98]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2
+                      ${
+                        isFavorite
+                          ? "bg-slate-50 text-slate-900 border border-slate-200"
+                          : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:text-slate-900"
+                      }
+                    `}
                   >
-                    <Heart size={18} className="text-slate-400 group-hover:text-accent-500 transition-colors" />
-                    Lưu địa điểm
+                    <Heart
+                      size={18}
+                      className={`transition-all duration-300 ${
+                        isFavorite
+                          ? "fill-slate-900 text-slate-900 scale-110"
+                          : "text-slate-400"
+                      }`}
+                    />
+                    {isFavorite ? "Bỏ lưu địa điểm" : "Lưu địa điểm"}
                   </button>
                 </div>
-
               </div>
             </div>
           </div>
