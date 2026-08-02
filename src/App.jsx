@@ -3,7 +3,7 @@ import Home from "@/pages/Home";
 import { Login, Register } from "@/features/auth";
 import { ProfilePage } from "@/features/user";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
-import { PlaceDetail, PlaceUpdate } from "@/features/place";
+import { PlaceDetail, PlaceUpdate, PlaceFavorite } from "@/features/place";
 
 function App() {
   return (
@@ -21,6 +21,10 @@ function App() {
         <Route
           path={`edit-place/:placeId`}
           element={<PlaceUpdate></PlaceUpdate>}
+        ></Route>
+        <Route
+          path="/favorites"
+          element={<PlaceFavorite></PlaceFavorite>}
         ></Route>
       </Route>
     </Routes>

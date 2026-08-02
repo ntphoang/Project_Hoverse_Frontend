@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   AddPlaceModal,
   PlaceItem,
-  useFetchFavorites,
+  useFetchFavoriteIds,
   useFetchPlaces,
   usePlaceFilter,
 } from "@/features/place";
@@ -14,7 +14,6 @@ import IconDictionary from "@/components/ui/IconDictionary";
 import { Search, Plus, Loader2, Sparkles, Check } from "lucide-react";
 
 const Home = () => {
-  useFetchFavorites();
   const { categories } = useFetchCategories();
   const { tags } = useFetchTags();
   const {
