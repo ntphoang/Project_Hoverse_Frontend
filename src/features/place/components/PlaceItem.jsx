@@ -22,10 +22,9 @@ const PlaceItem = ({ place, onClick }) => {
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const isFavorite = favoriteIds.includes(place.id);
 
-  // Hàm xử lý riêng cho nút lưu để tránh lan truyền sự kiện click ra ngoài Card
   const handleFavoriteClick = (e) => {
-    e.stopPropagation(); // Cực kỳ quan trọng: Ngăn chặn event click kích hoạt thẻ <article>
-    toggleFavorite(place.id);
+    e.stopPropagation();
+    toggleFavorite(place);
   };
 
   return (

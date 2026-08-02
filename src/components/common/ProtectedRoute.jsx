@@ -3,8 +3,7 @@ import { useAuth } from "../../features/auth/context/AuthContext";
 
 const ProtectedRoute = () => {
   const { user } = useAuth();
-  console.log(user);
-
+  
   if (!user) {
     return <Navigate to="/login" replace="true"></Navigate>;
   }

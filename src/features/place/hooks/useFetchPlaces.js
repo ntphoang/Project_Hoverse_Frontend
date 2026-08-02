@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { placeService } from "@/features/place";
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 9;
 
 const useFetchPlaces = (appliedFilter) => {
   const [places, setPlaces] = useState([]);
