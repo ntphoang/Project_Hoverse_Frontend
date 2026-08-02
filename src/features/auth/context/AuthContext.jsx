@@ -1,8 +1,10 @@
+import { useFetchFavoriteIds } from "@/features/place";
 import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  useFetchFavoriteIds();
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
