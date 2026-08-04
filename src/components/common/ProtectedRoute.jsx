@@ -1,12 +1,32 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthStore } from "@/store";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ requireVerified = false }) => {
   const user = useAuthStore((state) => state.user);
+  const location = useLocation();
 
+  // Chưa login
   if (!user) {
-    return <Navigate to="/login" replace="true"></Navigate>;
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ from: location.pathname }}
+      ></Navigate>
+    );
   }
+
+  // Chưa xác thực email
+  if (requireVerified && !user.isEmailVerified) {
+    useEffect(() => {
+      toast.error("Trang này yêu cầu tài khoản phải xác thực email!");
+    }, []);
+
+    return <Navigate to="/" replace></Navigate>;
+  }
+
   return <Outlet />;
 };
 
