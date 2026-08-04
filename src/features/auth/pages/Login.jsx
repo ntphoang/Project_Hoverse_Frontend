@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axiosClient from "@/api/axiosClient";
 import { Mail, Lock, ShieldCheck, Globe } from "lucide-react";
 import { useAuthStore } from "@/store";
@@ -7,6 +7,9 @@ import { useAuthStore } from "@/store";
 const Login = () => {
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const [formData, setFormData] = useState({
     email: "",
@@ -34,8 +37,8 @@ const Login = () => {
       setLoading(true);
       setError("");
       const responseData = await axiosClient.post("/auth/login", formData);
-      login(responseData);      
-      navigate("/");
+      login(responseData);
+      navigate(from, { replace: true });
     } catch (err) {
       const serverMessage =
         err.response?.data || "Tài khoản hoặc mật khẩu không chính xác.";

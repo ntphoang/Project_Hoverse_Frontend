@@ -7,6 +7,7 @@ import MapPicker from "../components/MapPicker";
 import usePlaceDetail from "../hooks/usePlaceDetail";
 import { MapPin, Star, Edit3, Heart, PenLine } from "lucide-react";
 import { useAuthStore, useFavoritesStore } from "@/store";
+import useActionGuard from "@/utils/useActionGuard";
 
 const PlaceDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,8 @@ const PlaceDetail = () => {
     error: reviewCreateError,
     submitReview,
   } = useReviewCreate();
+
+  const { withAuth, withVerified } = useActionGuard();
 
   const handleCreateReview = async ({ rating, content, files }) => {
     try {
@@ -215,7 +218,7 @@ const PlaceDetail = () => {
                   <div className="w-full h-px bg-slate-100 my-1"></div>
 
                   <button
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => withVerified(() => setIsModalOpen(true))}
                     className="w-full py-3.5 px-4 bg-slate-900 text-white rounded-full font-semibold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 flex items-center justify-center gap-2"
                   >
                     <PenLine size={18} />
@@ -224,7 +227,7 @@ const PlaceDetail = () => {
 
                   {/* NÚT LƯU ĐỊA ĐIỂM ĐÃ ĐƯỢC TỐI ƯU */}
                   <button
-                    onClick={() => toggleFavorite(place.id)}
+                    onClick={() => withAuth(() => toggleFavorite(place))}
                     className={`
                       w-full py-3.5 px-4 rounded-full font-semibold text-sm flex items-center justify-center gap-2 
                       transition-all duration-200 active:scale-[0.98]

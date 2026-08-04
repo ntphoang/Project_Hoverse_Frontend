@@ -1,4 +1,5 @@
 import { useFavoritesStore } from "@/store";
+import useActionGuard from "@/utils/useActionGuard";
 import { Star, MapPin, Heart } from "lucide-react";
 
 const PlaceItem = ({ place, onClick }) => {
@@ -22,9 +23,11 @@ const PlaceItem = ({ place, onClick }) => {
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const isFavorite = favoriteIds.includes(place.id);
 
+  const { withAuth } = useActionGuard();
+
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    toggleFavorite(place);
+    withAuth(() => toggleFavorite(place));
   };
 
   return (

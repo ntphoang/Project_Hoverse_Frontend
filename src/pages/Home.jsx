@@ -12,6 +12,7 @@ import Layout from "@/layouts/Layout";
 import { useNavigate } from "react-router-dom";
 import IconDictionary from "@/components/ui/IconDictionary";
 import { Search, Plus, Loader2, Sparkles, Check } from "lucide-react";
+import useActionGuard from "@/utils/useActionGuard";
 
 const Home = () => {
   const { categories } = useFetchCategories();
@@ -32,6 +33,8 @@ const Home = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const { withVerified } = useActionGuard();
 
   useEffect(() => {
     document.title = "Khám phá địa điểm | Hoverse";
@@ -61,7 +64,7 @@ const Home = () => {
 
             <button
               type="button"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => withVerified(() => setIsModalOpen(true))}
               className="mt-4 px-8 py-3.5 bg-white text-slate-900 font-semibold text-sm rounded-full shadow-md hover:bg-slate-100 hover:scale-[1.02] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white flex items-center gap-2 group cursor-pointer"
             >
               <Plus
