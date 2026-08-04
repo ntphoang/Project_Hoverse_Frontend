@@ -70,7 +70,7 @@ const usePlaceFilter = () => {
   const handleSelectSort = (sortValue) => {
     const newParams = Object.fromEntries([...searchParams]);
 
-    if (sortValue && sortValue !== "createdAt,desc") {
+    if (sortValue) {
       newParams.sort = sortValue;
     } else {
       delete newParams.sort;
