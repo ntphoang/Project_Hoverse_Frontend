@@ -1,5 +1,7 @@
 import { useAuthStore } from "@/store";
 import { Link, useNavigate, NavLink } from "react-router-dom";
+import { AlertTriangle, Loader2 } from "lucide-react";
+import { useResendVerify } from "@/features/auth";
 
 const NAV_ITEMS = [
   { path: "/", label: "Trang chủ", isExact: true },
@@ -10,7 +12,7 @@ const NAV_ITEMS = [
 export default function Header() {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-
+  const { resendVerify, countdown, isLoading, error } = useResendVerify();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -99,6 +101,42 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      {/* Banner cảnh báo khi chưa xác thực email */}
+      {user && user.isEmailVerified === false && (
+        <div className="bg-amber-50 border-b border-amber-200 px-4 py-3 mt-2 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-sm font-medium">
+            {/* Nhóm Icon và Text */}
+            <div className="flex items-center gap-2.5 text-amber-900 text-center sm:text-left">
+              <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>
+                Tài khoản của bạn chưa được xác thực. Một số tính năng đã bị
+                giới hạn.
+              </span>
+            </div>
+
+            {/* Call to Action Button */}
+            <button
+              onClick={resendVerify}
+              disabled={countdown > 0 || isLoading}
+              className={`
+          inline-flex items-center gap-1.5 font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 rounded-sm
+          ${
+            countdown > 0 || isLoading
+              ? "text-amber-600/50 cursor-not-allowed"
+              : "text-amber-700 hover:text-amber-900 hover:underline underline-offset-4 cursor-pointer"
+          }
+        `}
+            >
+              {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+
+              {countdown > 0
+                ? `Gửi lại sau (${countdown}s)`
+                : "Gửi lại mã xác thực"}
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
