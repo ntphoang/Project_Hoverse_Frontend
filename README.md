@@ -1,16 +1,39 @@
-# React + Vite
+# 1. Tech Stack
+- Database: MariaDB
+- Backend: Java Spring Boot
+- Frontend: ReactJS, TailwindCSS
+- Infrastructure/3rd Party:
+    + Cloudinary (Image Storage)
+    + Nominatim API (Geocoding)
+    + JWT (Authentication)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 2. Folder structure:
+```
+📦 Backend (Spring Boot)
+ ┣ 📂 controller  # API Endpoints (Request/Response routing)
+ ┣ 📂 service     # Business Logic (Interface & Impl)
+ ┣ 📂 repository  # Data Access Layer
+ ┣ 📂 entity      # Database Models
+ ┣ 📂 dto         # Data Transfer Objects
+ ┗ 📂 utils/enum  # Helpers & Constants
 
-Currently, two official plugins are available:
+📦 Frontend (ReactJS)
+ ┣ 📂 features    # Module theo nghiệp vụ (Core: components, pages, hooks, services)
+ ┣ 📂 components  # Global UI Components
+ ┣ 📂 store       # Global State (Zustand)
+ ┣ 📂 api         # Axios Client Config
+ ┗ 📂 layouts/pages/utils 
+ ```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+# 3. Tech conventions
+## 3.1 State Management Convention
+| Kịch bản (IF) | Giải pháp (THEN) | Ví dụ thực tế trong Hoverse |
+| --- | --- | --- |
+| State dùng chung toàn cục (Global), **cập nhật liên tục / phức tạp**. | Dùng **Zustand** | Giỏ hàng, Bookmark, Notification. |
+| State dùng chung, **ít thay đổi**, chỉ mang tính chất Read-only. | Dùng **Context API** | Theme (Dark/Light), Multi-language. |
+| State cục bộ, chỉ dùng trong 1 Component hoặc truyền 1 cấp xuống con. | Dùng `useState` / `useReducer` | Form input, Đóng/mở Modal, Toggle UI. |
 
-## React Compiler
+## 2. Custom Hook Convention
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* **Bắt buộc tách hook khi:** Logic lặp lại >= 2 lần ở các module khác nhau.
+* **Khuyến khích tách hook khi:** Component dài > 150 dòng. Tách toàn bộ API call và logic xử lý data ra. Component chỉ giữ lại UI.
