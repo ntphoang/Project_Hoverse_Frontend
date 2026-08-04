@@ -2,9 +2,11 @@ import { placeService } from "@/features/place";
 import { create } from "zustand";
 
 const useFavoritesStore = create((set, get) => ({
+  // State
   favoriteIds: [],
   favorites: [],
 
+  //Actions
   setFavoriteIds: (idList) => {
     set({ favoriteIds: idList });
   },
