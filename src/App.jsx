@@ -9,12 +9,15 @@ import {
   PlaceFavorite,
   useFetchFavoriteIds,
 } from "@/features/place";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   useFetchFavoriteIds();
 
   return (
+    <>
       <Routes>
+        {/* CÁC TRANG CÔNG KHAI */}
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/register" element={<Register></Register>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
@@ -27,18 +30,28 @@ function App() {
           element={<PlaceDetail></PlaceDetail>}
         ></Route>
 
+        {/* CÁC TRANG YÊU CÂU LOGIN */}
         <Route element={<ProtectedRoute></ProtectedRoute>}>
           <Route path="/users/me" element={<ProfilePage></ProfilePage>}></Route>
-          <Route
-            path={`edit-place/:placeId`}
-            element={<PlaceUpdate></PlaceUpdate>}
-          ></Route>
           <Route
             path="/favorites"
             element={<PlaceFavorite></PlaceFavorite>}
           ></Route>
         </Route>
+
+        {/* CÁC TRANG YÊU CẦU LOGIN + XÁC THỰC EMAIL */}
+        <Route
+          element={<ProtectedRoute requireVerified={true}></ProtectedRoute>}
+        >
+          <Route
+            path={`edit-place/:placeId`}
+            element={<PlaceUpdate></PlaceUpdate>}
+          ></Route>
+        </Route>
       </Routes>
+
+      <ToastContainer />
+    </>
   );
 }
 
