@@ -1,4 +1,4 @@
-import { useAuth } from "@/features/auth";
+import { useAuthStore } from "@/store";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 
 const NAV_ITEMS = [
@@ -8,7 +8,9 @@ const NAV_ITEMS = [
 ];
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -56,7 +58,7 @@ export default function Header() {
 
         {/* 3. USER / AUTH ACTIONS */}
         <div className="flex items-center">
-          {user ? (
+          {user != null ? (
             <div className="flex items-center gap-2">
               <Link
                 to="/users/me"

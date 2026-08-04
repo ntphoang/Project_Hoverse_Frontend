@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import axiosClient from "@/api/axiosClient";
 import { Mail, Lock, ShieldCheck, Globe } from "lucide-react";
+import { useAuthStore } from "@/store";
 
 const Login = () => {
-  const { login } = useAuth();
+  const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ const Login = () => {
       setLoading(true);
       setError("");
       const responseData = await axiosClient.post("/auth/login", formData);
-      login(responseData);
+      login(responseData);      
       navigate("/");
     } catch (err) {
       const serverMessage =
@@ -52,17 +52,23 @@ const Login = () => {
           <div className="w-full max-w-md flex flex-col items-center text-center">
             <div className="flex items-center gap-2 mb-6 lg:mb-8 text-slate-900">
               <ShieldCheck size={28} className="fill-slate-900 text-white" />
-              <span className="text-xl font-bold font-heading tracking-tight">Hoverse</span>
+              <span className="text-xl font-bold font-heading tracking-tight">
+                Hoverse
+              </span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 mb-3 lg:mb-4 tracking-tight">
               Welcome back to Hoverse
             </h2>
             <p className="text-slate-500 text-xs sm:text-sm lg:text-base leading-relaxed mb-8 lg:mb-10 max-w-xs">
-              Welcome back to Hoverse, the ultimate platform for exploring places. Let's get you signed in.
+              Welcome back to Hoverse, the ultimate platform for exploring
+              places. Let's get you signed in.
             </p>
 
-            <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-3.5 lg:gap-4">
+            <form
+              onSubmit={handleSubmit}
+              className="w-full flex flex-col items-center gap-3.5 lg:gap-4"
+            >
               <div className="w-full h-12 lg:h-14 bg-white rounded-full flex items-center px-5 shadow-sm border border-slate-100/50 focus-within:ring-2 focus-within:ring-slate-900/10 transition-all">
                 <Mail size={18} className="text-slate-400 shrink-0" />
                 <div className="w-px h-5 bg-slate-200 mx-3 lg:mx-4 shrink-0"></div>
@@ -118,7 +124,10 @@ const Login = () => {
 
             <div className="mt-6 lg:mt-8 text-xs lg:text-sm text-slate-500">
               Don't have an account?{" "}
-              <Link to="/register" className="font-semibold text-slate-900 hover:underline">
+              <Link
+                to="/register"
+                className="font-semibold text-slate-900 hover:underline"
+              >
                 Sign up
               </Link>
             </div>

@@ -3,21 +3,21 @@ import { Link, useParams } from "react-router-dom";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { AddReviewModal, ReviewList, useReviewCreate } from "@/features/review";
-import { useAuth } from "@/features/auth";
 import MapPicker from "../components/MapPicker";
 import usePlaceDetail from "../hooks/usePlaceDetail";
 import { MapPin, Star, Edit3, Heart, PenLine } from "lucide-react";
-import { useFavoritesStore } from "@/store";
+import { useAuthStore, useFavoritesStore } from "@/store";
 
 const PlaceDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { placeId } = useParams();
-  const { user } = useAuth();
 
   const favoriteIds = useFavoritesStore((state) => state.favoriteIds);
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+
+  const user = useAuthStore((state) => state.user);
 
   const { place, isLoading, error: placeDetailError } = usePlaceDetail(placeId);
   const {
