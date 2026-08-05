@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
+const avatarUrlDefault =
+  "https://res.cloudinary.com/ty4mmnvd/image/upload/v1785929829/avatar-default_ziyif2.svg";
+
 const useAuthStore = create(
   // persist giúp từ động lưu xuống localstorage
   persist(
@@ -13,8 +16,11 @@ const useAuthStore = create(
       login: (userData) => {
         set({
           user: {
+            id: userData.id,
             email: userData.email,
             role: userData.role,
+            fullName: userData.fullName,
+            avatarUrl: userData.avatarUrl || avatarUrlDefault,
             isEmailVerified: userData.emailVerified,
           },
           token: userData.token,
@@ -23,6 +29,10 @@ const useAuthStore = create(
 
       logout: () => {
         set({ user: null, token: null });
+      },
+
+      update: (userData) => {
+        set((state) => ({ user: { ...state.user, ...userData } }));
       },
     }),
     {
