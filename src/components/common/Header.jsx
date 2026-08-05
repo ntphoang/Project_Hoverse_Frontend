@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { path: "/about", label: "Giới thiệu" },
 ];
 
+const AVATAR_DEFAULT = "https://res.cloudinary.com/ty4mmnvd/image/upload/v1785929829/avatar-default_ziyif2.svg";
+
 export default function Header() {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
@@ -67,11 +69,10 @@ export default function Header() {
                 className="flex items-center gap-2 pr-4 pl-1.5 py-1.5 rounded-full hover:bg-slate-100 transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50"
               >
                 {/* Avatar */}
-                <div className="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                  {user.email.charAt(0).toUpperCase()}
-                </div>
+                <img src={user.avatarUrl || AVATAR_DEFAULT} className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-sm">
+                </img>
                 <span className="hidden sm:block text-slate-900 text-sm font-semibold truncate max-w-[120px]">
-                  {user.email.split("@")[0]}
+                  {user.fullName || user.email.split("@")[0]}
                 </span>
               </Link>
 

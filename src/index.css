@@ -55,4 +55,12 @@
   h6 {
     @apply font-heading font-bold text-slate-900;
   }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
 }
