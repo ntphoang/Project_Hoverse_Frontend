@@ -10,6 +10,11 @@ const profileService = {
     const response = await axiosClient.patch("/users/me", formData);
     return response;
   },
+
+  uploadAvatar: async (formData) => {
+    const response = await axiosClient.patch("/users/avatar", formData);
+    return response;
+  },
 };
 
 export default profileService;
