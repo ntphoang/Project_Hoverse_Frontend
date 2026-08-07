@@ -15,6 +15,11 @@ const profileService = {
     const response = await axiosClient.patch("/users/avatar", formData);
     return response;
   },
+
+  changePassword: async (formData) => {
+    const response = await axiosClient.patch("/users/password", formData);
+    return response;
+  },
 };
 
 export default profileService;

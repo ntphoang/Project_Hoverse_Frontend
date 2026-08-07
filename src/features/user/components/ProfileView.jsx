@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useAuthStore } from "@/store";
-import { Edit2 } from "lucide-react";
+import { Edit2, Key } from "lucide-react";
 import EditProfileModal from "./EditProfileModal";
 import EditAvatarModal from "./EditAvatarModal";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const ProfileView = ({ profile }) => {
   const user = useAuthStore((state) => state.user);
@@ -10,6 +11,7 @@ const ProfileView = ({ profile }) => {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
 
   const joinDate = profile?.createAt
     ? new Date(profile.createAt).toLocaleDateString("vi-VN", {
@@ -22,7 +24,7 @@ const ProfileView = ({ profile }) => {
     <>
       <div className="w-full max-w-4xl mx-auto bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden transition-all">
         {/* COVER BACKGROUND */}
-        <div className="h-32 md:h-48 bg-slate-100 border-b border-slate-200 w-full" />
+        <div className="h-32 md:h-48 bg-slate-400 border-b border-slate-200 w-full" />
 
         <div className="px-6 md:px-10 pb-8 md:pb-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 -mt-12 md:-mt-16 mb-6 md:mb-8">
@@ -109,18 +111,36 @@ const ProfileView = ({ profile }) => {
 
             <div className="flex flex-col gap-1 md:gap-1.5 border-l border-slate-100 pl-4 md:pl-6">
               <span className="text-2xl md:text-3xl font-bold font-heading text-slate-900">
-                548
+                1.1M
               </span>
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 Lượt thích
               </span>
             </div>
           </div>
+
+          <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-start">
+            <button
+              type="button"
+              onClick={() => setIsPasswordOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-slate-700 font-semibold text-sm rounded-full border border-slate-200 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200"
+            >
+              <Key className="w-4 h-4 text-slate-400" />
+              Đổi mật khẩu
+            </button>
+          </div>
         </div>
       </div>
 
       {isEditOpen && <EditProfileModal onClose={() => setIsEditOpen(false)} />}
-      {isAvatarOpen && <EditAvatarModal onClose={() => setIsAvatarOpen(false)} />}
+      {isAvatarOpen && (
+        <EditAvatarModal onClose={() => setIsAvatarOpen(false)} />
+      )}
+      {isPasswordOpen && (
+        <ChangePasswordModal
+          onClose={() => setIsPasswordOpen(false)}
+        ></ChangePasswordModal>
+      )}
     </>
   );
 };
