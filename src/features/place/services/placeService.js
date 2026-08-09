@@ -42,6 +42,11 @@ const placeService = {
     const response = await axiosClient.post(`/places/${placeId}/favorite`);
     return response;
   },
+
+  updateViewCount: async (placeId) => {
+    const response = await axiosClient.patch(`/places/${placeId}/view`);
+    return response;
+  },
 };
 
 export default placeService;
