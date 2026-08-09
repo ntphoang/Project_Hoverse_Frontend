@@ -4,6 +4,7 @@ import { Star, MapPin, Heart } from "lucide-react";
 
 const PlaceItem = ({ place, onClick }) => {
   const {
+    id,
     title,
     address,
     categoryName,
@@ -11,6 +12,7 @@ const PlaceItem = ({ place, onClick }) => {
     reviewCount,
     coverImageUrl,
     authorName,
+    authorAvatarUrl,
     createdAt,
   } = place;
 
@@ -95,9 +97,10 @@ const PlaceItem = ({ place, onClick }) => {
         <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
           {/* Cụm Tác giả */}
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0">
-              {author.charAt(0).toUpperCase()}
-            </div>
+            <img
+              src={authorAvatarUrl}
+              className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0"
+            />
             <span className="text-sm font-medium text-slate-600 truncate max-w-[120px]">
               Bởi {author}
             </span>

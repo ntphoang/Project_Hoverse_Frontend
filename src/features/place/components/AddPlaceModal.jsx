@@ -12,7 +12,6 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     address: "",
     description: "",
     categoryId: 1,
-    userId: 1,
     latitude: null,
     longitude: null,
     tagIds: [],
@@ -51,8 +50,8 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     e.preventDefault();
 
     try {
-      await placeService.createPlace(formData, files);
-      onPlaceAdded();
+      const response = await placeService.createPlace(formData, files);
+      onPlaceAdded(response);
       onClose();
       setFormData({
         ...formData,
