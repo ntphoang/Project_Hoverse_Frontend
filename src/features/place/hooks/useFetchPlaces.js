@@ -1,58 +1,28 @@
-import { useState, useEffect } from "react";
 import { placeService } from "@/features/place";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 const PAGE_SIZE = 9;
 
-const useFetchPlaces = (appliedFilter) => {
-  const [places, setPlaces] = useState([]);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+const usePlacesInfinite = (appliedFilter) => {
+  return useInfiniteQuery({
+    queryKey: ["places", "infinite", appliedFilter ],
 
-  const fetchPlaces = async () => {
-    try {
-      setIsLoading(true);
+    queryFn: async ({pageParam = 0}) => {
       const response = await placeService.getPlaceByConditions(
-        page,
+        pageParam,
         appliedFilter,
         PAGE_SIZE,
       );
-      if (page === 0) {
-        setPlaces(response.content);
-      } else {
-        setPlaces((prev) => [...prev, ...response.content]);
-      }
-      setHasMore(!response.last);
-    } catch (error) {
-      console.log("Có lỗi khi lấy danh sách địa điểm: ", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return response;
+    },
 
-  useEffect(() => {
-    setPage(0);
-  }, [appliedFilter]);
+    getNextPageParam: (lastPage, allPages)=>{
+      if(!lastPage.last) return allPages.length;
+      return undefined;
+    },
 
-  useEffect(() => {
-    fetchPlaces();
-  }, [page, appliedFilter]);
-
-  const handleReadMore = () => {
-    setPage((prev) => prev + 1);
-  };
-
-  const handlePlaceAdded = (newPlace) => {
-    setPlaces((prev) => [newPlace, ...prev]);
-  };
-
-  return {
-    places,
-    isLoading,
-    hasMore,
-    handleReadMore,
-    handlePlaceAdded,
-  };
+    staleTime: 5 * 60 * 1000,
+  });
 };
 
-export default useFetchPlaces;
+export default usePlacesInfinite;

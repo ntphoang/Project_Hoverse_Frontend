@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
   AddPlaceModal,
   PlaceItem,
-  useFetchFavoriteIds,
-  useFetchPlaces,
   usePlaceFilter,
+  usePlacesInfinite,
 } from "@/features/place";
 import { useFetchCategories } from "@/features/category";
 import { useFetchTags } from "@/features/tag";
@@ -28,8 +27,9 @@ const Home = () => {
     handleSelectMinRating,
   } = usePlaceFilter();
 
-  const { places, isLoading, hasMore, handleReadMore, handlePlaceAdded } =
-    useFetchPlaces(appliedFilter);
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    usePlacesInfinite(appliedFilter);
+  const places = data?.pages.flatMap((page) => page.content) || [];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -229,15 +229,15 @@ const Home = () => {
           </section>
 
           {/* === 5. NÚT XEM THÊM === */}
-          {hasMore && places?.length > 0 && (
+          {hasNextPage && places?.length > 0 && (
             <div className="flex justify-center pt-2 pb-8">
               <button
                 type="button"
                 className="w-full sm:w-auto min-w-[220px] px-8 py-3.5 bg-white text-slate-700 font-semibold text-sm rounded-full border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300 hover:text-slate-900 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 flex items-center justify-center gap-2 group cursor-pointer"
-                onClick={handleReadMore}
-                disabled={isLoading}
+                onClick={fetchNextPage}
+                disabled={isFetchingNextPage}
               >
-                {isLoading ? (
+                {isFetchingNextPage ? (
                   <>
                     <Loader2
                       size={18}
@@ -262,7 +262,6 @@ const Home = () => {
           <AddPlaceModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            onPlaceAdded={handlePlaceAdded}
           />
         </div>
       </main>
