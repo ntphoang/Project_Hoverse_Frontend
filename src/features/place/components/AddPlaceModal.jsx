@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import placeService from "../services/placeService";
-import { categoryService } from "@/features/category";
+import { categoryService, useFetchCategories } from "@/features/category";
 import geocodeService from "@/services/geocodeService";
 import MapPicker from "./MapPicker";
-import { tagService } from "@/features/tag";
+import { tagService, useFetchTags } from "@/features/tag";
 import { X } from "lucide-react";
+import useCreatePlace from "../hooks/useCreatePlace";
 
-const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
+const AddPlaceModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     title: "",
     address: "",
@@ -17,23 +18,11 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
     tagIds: [],
   });
   const [files, setFiles] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [tags, setTags] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseCategory = await categoryService.getAllCategories();
-        setCategories(responseCategory);
+  const { categories } = useFetchCategories();
+  const { tags } = useFetchTags();
 
-        const responseTag = await tagService.getAllTags();
-        setTags(responseTag);
-      } catch (error) {
-        console.error("Lỗi khi load data:" + error.message);
-      }
-    };
-    fetchData();
-  }, []);
+  const { mutate: createPlace, isPending } = useCreatePlace();
 
   if (!isOpen) return null;
 
@@ -49,20 +38,23 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await placeService.createPlace(formData, files);
-      onPlaceAdded(response);
-      onClose();
-      setFormData({
-        ...formData,
-        title: "",
-        address: "",
-        description: "",
-        tagIds: [],
-      });
-    } catch (error) {
-      alert("Có lỗi xảy ra khi thêm địa điểm: " + error.message);
-    }
+    createPlace(
+      { formData, files },
+      {
+        onSuccess: () => {
+          onClose();
+          setFormData({
+            title: "",
+            address: "",
+            description: "",
+            categoryId: 1,
+            latitude: null,
+            longitude: null,
+            tagIds: [],
+          });
+        },
+      },
+    );
   };
 
   const onSelectAddress = async (latitude, longitude) => {
@@ -262,9 +254,17 @@ const AddPlaceModal = ({ isOpen, onClose, onPlaceAdded }) => {
           <button
             type="submit"
             form="add-place-form"
+            disabled={isPending}
             className="w-full sm:w-auto px-8 py-3 md:py-3.5 rounded-full text-sm font-medium text-white bg-black hover:bg-slate-800 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
           >
-            Lưu địa điểm
+            {isPending ? (
+              <>
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                Đang lưu...
+              </>
+            ) : (
+              "Lưu địa điểm"
+            )}
           </button>
         </div>
       </div>
