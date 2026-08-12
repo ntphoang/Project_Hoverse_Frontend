@@ -20,7 +20,7 @@ const AdminSideBar = () => {
       {/* Danh sách Menu */}
       <nav className="flex flex-col gap-2 flex-1">
         {ADMIN_MENUS.map((item) => (
-          <NavLink to={item.path} className={navItemStyles}>
+          <NavLink key={item.path} to={item.path} className={navItemStyles}>
             <item.icon className="w-5 h-5" />
             <span>{item.title}</span>
           </NavLink>
