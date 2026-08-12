@@ -47,6 +47,14 @@ const placeService = {
     const response = await axiosClient.patch(`/places/${placeId}/view`);
     return response;
   },
+
+  changePlaceStatus: async (placeId, formData) => {
+    const response = await axiosClient.patch(
+      `/places/${placeId}/status`,
+      formData,
+    );
+    return response;
+  },
 };
 
 export default placeService;
