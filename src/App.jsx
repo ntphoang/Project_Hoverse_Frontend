@@ -8,8 +8,10 @@ import {
   PlaceUpdate,
   PlaceFavorite,
   useFetchFavoriteIds,
+  AdminPlaceManage,
 } from "@/features/place";
 import { ToastContainer } from "react-toastify";
+import AdminLayout from "./layouts/AdminLayout";
 
 function App() {
   useFetchFavoriteIds();
@@ -47,6 +49,18 @@ function App() {
             path={`edit-place/:placeId`}
             element={<PlaceUpdate></PlaceUpdate>}
           ></Route>
+        </Route>
+
+        {/* CÁC TRANG YÊU CẦU ROLE ADMIN */}
+        <Route
+          element={<ProtectedRoute requireIsAdmin={true}></ProtectedRoute>}
+        >
+          <Route path="/admin" element={<AdminLayout></AdminLayout>}>
+            <Route
+              path="/admin/places"
+              element={<AdminPlaceManage></AdminPlaceManage>}
+            ></Route>
+          </Route>
         </Route>
       </Routes>
 

@@ -3,7 +3,10 @@ import { useAuthStore } from "@/store";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-const ProtectedRoute = ({ requireVerified = false }) => {
+const ProtectedRoute = ({
+  requireVerified = false,
+  requireIsAdmin = false,
+}) => {
   const user = useAuthStore((state) => state.user);
   const location = useLocation();
 
@@ -25,6 +28,11 @@ const ProtectedRoute = ({ requireVerified = false }) => {
     }, []);
 
     return <Navigate to="/" replace></Navigate>;
+  }
+
+  // Yêu cầu quyền Admin
+  if (requireIsAdmin && user.role !== "ADMIN") {
+    return <Navigate to="/"></Navigate>;
   }
 
   return <Outlet />;
