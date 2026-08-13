@@ -13,8 +13,8 @@ const ProfileView = ({ profile }) => {
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
 
-  const joinDate = profile?.createAt
-    ? new Date(profile.createAt).toLocaleDateString("vi-VN", {
+  const joinDate = profile?.createdAt
+    ? new Date(profile.createdAt).toLocaleDateString("vi-VN", {
         month: "2-digit",
         year: "numeric",
       })
@@ -85,7 +85,7 @@ const ProfileView = ({ profile }) => {
             <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 text-slate-500 text-sm font-medium">
               <span>{user?.email || "Chưa cập nhật email"}</span>
               <span className="hidden sm:block w-1 h-1 rounded-full bg-slate-300"></span>
-              <span>Thành viên từ tháng {joinDate}</span>
+              <span>Thành viên từ {joinDate}</span>
             </div>
           </div>
 
