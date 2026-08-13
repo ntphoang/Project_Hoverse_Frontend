@@ -8,7 +8,7 @@ import {
   MapPin,
   CalendarDays,
 } from "lucide-react";
-import RejectModal from "@/components/ui/RejectModal";
+import ReasonModal from "@/components/ui/ReasonModal";
 
 const IMAGE_DEFAULT =
   "https://res.cloudinary.com/ty4mmnvd/image/upload/v1786459968/default_x7xwbw.jpg";
@@ -16,8 +16,8 @@ const IMAGE_DEFAULT =
 const AdminPlaceItem = ({ place, tab }) => {
   const { mutate: changePlaceStatus, isPending } = useChangePlaceStatus();
 
-  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
-  const [rejectReason, setRejectReason] = useState("");
+  const [isReasonModalOpen, setIsReasonModalOpen] = useState(false);
+  const [reason, setReason] = useState("");
 
   const statusList = ["PENDING", "APPROVED", "REJECTED"];
   const buttonList = statusList.filter(
@@ -82,13 +82,13 @@ const AdminPlaceItem = ({ place, tab }) => {
       })
     : "Chưa cập nhật";
 
-  const handleConfirmReject = () => {
+  const handleConfirmReason = () => {
     changePlaceStatus(
       {
         placeId: place.id,
-        formData: { status: "REJECTED", rejectReason: rejectReason },
+        formData: { status: "REJECTED", rejectReason: reason },
       },
-      { onSuccess: () => setIsRejectModalOpen(false) },
+      { onSuccess: () => setIsReasonModalOpen(false) },
     );
   };
 
@@ -156,7 +156,7 @@ const AdminPlaceItem = ({ place, tab }) => {
                 disabled={isPending}
                 onClick={() => {
                   if (status === "REJECTED") {
-                    setIsRejectModalOpen(true);
+                    setIsReasonModalOpen(true);
                   } else {
                     changePlaceStatus({
                       placeId: place.id,
@@ -182,14 +182,19 @@ const AdminPlaceItem = ({ place, tab }) => {
       </div>
 
       {/* REJECT MODAL */}
-      {isRejectModalOpen && (
-        <RejectModal
+      {isReasonModalOpen && (
+        <ReasonModal
           isPending={isPending}
-          setIsRejectModalOpen={setIsRejectModalOpen}
-          setRejectReason={setRejectReason}
-          handleConfirmReject={handleConfirmReject}
-          rejectReason = {rejectReason}
-        ></RejectModal>
+          setIsReasonModalOpen={setIsReasonModalOpen}
+          setReason={setReason}
+          handleConfirmReason={handleConfirmReason}
+          reason={reason}
+          title={{
+            supTitle: "Từ chối địa điểm",
+            subTitle: "Vui lòng nhập lý từ chối địa điểm này!",
+            placeholder: "Ví dụ: Địa điểm chưa có ảnh cụ thể...",
+          }}
+        ></ReasonModal>
       )}
     </div>
   );

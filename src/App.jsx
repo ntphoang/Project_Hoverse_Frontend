@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "@/pages/Home";
 import { Login, Register, VerifyEmail } from "@/features/auth";
-import { ProfilePage } from "@/features/user";
+import { AdminUserManage, ProfilePage } from "@/features/user";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
 import {
   PlaceDetail,
@@ -60,6 +60,7 @@ function App() {
               path="/admin/places"
               element={<AdminPlaceManage></AdminPlaceManage>}
             ></Route>
+            <Route path="/admin/users" element={<AdminUserManage></AdminUserManage>}></Route>
           </Route>
         </Route>
       </Routes>
