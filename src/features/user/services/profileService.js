@@ -20,6 +20,25 @@ const profileService = {
     const response = await axiosClient.patch("/users/password", formData);
     return response;
   },
+
+  getUserByConditions: async (page, appliedFilter, PAGE_SIZE) => {
+    const response = await axiosClient.get("/users", {
+      params: {
+        ...appliedFilter,
+        page,
+        size: PAGE_SIZE,
+      },
+    });
+    return response;
+  },
+
+  changeUserStatus: async (userId, formData) => {
+    const response = await axiosClient.patch(
+      `/users/${userId}/status`,
+      formData,
+    );
+    return response;
+  },
 };
 
 export default profileService;
