@@ -12,6 +12,7 @@ import {
 } from "@/features/place";
 import { ToastContainer } from "react-toastify";
 import AdminLayout from "./layouts/AdminLayout";
+import { AdminCategoryManage } from "./features/category";
 
 function App() {
   useFetchFavoriteIds();
@@ -60,7 +61,16 @@ function App() {
               path="/admin/places"
               element={<AdminPlaceManage></AdminPlaceManage>}
             ></Route>
-            <Route path="/admin/users" element={<AdminUserManage></AdminUserManage>}></Route>
+
+            <Route
+              path="/admin/users"
+              element={<AdminUserManage></AdminUserManage>}
+            ></Route>
+
+            <Route
+              path="/admin/categories"
+              element={<AdminCategoryManage></AdminCategoryManage>}
+            ></Route>
           </Route>
         </Route>
       </Routes>

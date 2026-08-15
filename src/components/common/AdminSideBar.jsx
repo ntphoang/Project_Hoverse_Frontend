@@ -1,10 +1,10 @@
-import { useAuthStore } from "@/store";
 import { NavLink } from "react-router-dom";
-import { MapPin, Users } from "lucide-react";
+import { MapPin, Users, FolderTree } from "lucide-react";
 
 const ADMIN_MENUS = [
   { title: "Quản lý địa điểm", path: "/admin/places", icon: MapPin },
   { title: "Quản lý người dùng", path: "/admin/users", icon: Users },
+  { title: "Quản lý danh mục", path: "/admin/categories", icon: FolderTree },
 ];
 
 const AdminSideBar = () => {
