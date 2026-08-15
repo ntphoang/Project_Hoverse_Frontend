@@ -17,9 +17,12 @@ const AdminUserManage = () => {
       {/* Header khu vực quản lý */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
-          <h1 className="text-2xl font-heading font-bold text-slate-900 tracking-tight">
+          <h1 className="tex  t-2xl font-heading font-bold text-slate-900 tracking-tight">
             Quản lý người dùng
           </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Duyệt và quản lý người dùng có trong hệ thống
+          </p>
         </div>
 
         {/* Control Tab */}
@@ -34,7 +37,7 @@ const AdminUserManage = () => {
                 onClick={() =>
                   setSearchParams({
                     tab: userStatus.toLowerCase(),
-                    page: 0, 
+                    page: 0,
                   })
                 }
                 className={`

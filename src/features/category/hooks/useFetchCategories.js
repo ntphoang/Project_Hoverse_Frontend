@@ -10,7 +10,7 @@ const useFetchCategories = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await categoryService.getAllCategories();
+      const response = await categoryService.getCategoryByConditions();
       setCategories(response);
     } catch (error) {
       setError("Có lỗi khi tải danh mục " + error);

@@ -16,6 +16,7 @@ const usePlaceFilter = () => {
         ? searchParams.get("tags").split(",").map(Number)
         : [],
       sort: searchParams.get("sort") || "createdAt,desc",
+      status: "APPROVED",
     }),
     [searchParams],
   );
@@ -99,7 +100,7 @@ const usePlaceFilter = () => {
     handleSelectCategory,
     handleToggleTag,
     handleSelectSort,
-    handleSelectMinRating
+    handleSelectMinRating,
   };
 };
 
