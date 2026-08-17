@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { MapPin, Users, FolderTree } from "lucide-react";
+import { MapPin, Users, FolderTree ,TagIcon} from "lucide-react";
 
 const ADMIN_MENUS = [
   { title: "Quản lý địa điểm", path: "/admin/places", icon: MapPin },
   { title: "Quản lý người dùng", path: "/admin/users", icon: Users },
   { title: "Quản lý danh mục", path: "/admin/categories", icon: FolderTree },
+  { title: "Quản lý tag", path: "/admin/tags", icon: TagIcon },
 ];
 
 const AdminSideBar = () => {
