@@ -4,13 +4,14 @@ import {
   PlaceItem,
   usePlaceFilter,
   usePlacesInfinite,
+  PlaceTopRatingList
 } from "@/features/place";
 import { useFetchCategories } from "@/features/category";
 import { useFetchTags } from "@/features/tag";
 import Layout from "@/layouts/Layout";
 import { useNavigate } from "react-router-dom";
 import IconDictionary from "@/components/ui/IconDictionary";
-import { Search, Plus, Loader2, Sparkles, Check } from "lucide-react";
+import { Search, Plus, Loader2, Sparkles, Check, TrendingUp } from "lucide-react";
 import useActionGuard from "@/utils/useActionGuard";
 
 const Home = () => {
@@ -44,7 +45,8 @@ const Home = () => {
     <Layout>
       <main className="min-h-screen bg-slate-50 py-8 md:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-8 md:space-y-10">
-          {/* === 1. HERO SECTION === */}
+          
+          {/* === 1. HERO SECTION (BANNER CHÍNH) === */}
           <section className="relative bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-[2rem] p-8 md:p-14 overflow-hidden shadow-sm flex flex-col items-start gap-4">
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
 
@@ -75,8 +77,29 @@ const Home = () => {
             </button>
           </section>
 
-          {/* === 2. LỌC CHÍNH: CATEGORIES === */}
-          <section className="w-full">
+          {/* === 2. LEADERBOARD SECTION (BẢNG XẾP HẠNG TOP 5) === */}
+          <section className="w-full flex flex-col gap-5">
+            {/* Header của Bảng xếp hạng */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 bg-amber-100 text-amber-600 rounded-xl shadow-sm">
+                <TrendingUp size={20} />
+              </div>
+              <div>
+                <h2 className="text-xl md:text-2xl font-heading font-bold text-slate-900">
+                  Địa điểm đánh giá cao
+                </h2>
+                <p className="text-sm text-slate-500 mt-0.5 font-medium">
+                  Top 5 địa điểm nổi bật nhất do cộng đồng bình chọn
+                </p>
+              </div>
+            </div>
+
+            {/* List Top Rating */}
+            <PlaceTopRatingList />
+          </section>
+
+          {/* === 3. LỌC CHÍNH: CATEGORIES === */}
+          <section className="w-full pt-2">
             <div className="flex items-center gap-3 overflow-x-auto pb-2 no-scrollbar">
               {[
                 { id: null, name: "Tất cả", iconName: "All" },
@@ -105,9 +128,8 @@ const Home = () => {
             </div>
           </section>
 
-          {/* === 3. CONTROL CENTER: TÌM KIẾM & LỌC PHỤ === */}
+          {/* === 4. CONTROL CENTER: TÌM KIẾM & LỌC PHỤ === */}
           <section className="bg-white p-4 md:p-6 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col gap-5">
-            {/* Hàng 1: Inputs & Button */}
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="relative flex-1 w-full">
                 <Search
@@ -168,7 +190,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Hàng 2: TAGS */}
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1">
               <span className="text-sm font-semibold text-slate-500 mr-2 shrink-0">
                 Tiện ích:
@@ -200,8 +221,20 @@ const Home = () => {
             </div>
           </section>
 
-          {/* === 4. DANH SÁCH QUÁN === */}
-          <section className="w-full">
+          {/* === 5. DANH SÁCH KHÁM PHÁ (CHUNG) === */}
+          <section className="w-full flex flex-col gap-6 pt-6 border-t border-slate-200">
+            {/* Header của Danh sách chung */}
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl md:text-2xl font-heading font-bold text-slate-900">
+                  Khám phá tất cả
+                </h2>
+                <p className="text-sm text-slate-500 mt-1">
+                  Hiển thị các địa điểm dựa trên bộ lọc của bạn
+                </p>
+              </div>
+            </div>
+
             {places?.length === 0 && !isLoading ? (
               <div className="flex flex-col items-center justify-center py-20 px-4 bg-white rounded-[2rem] border border-slate-200 shadow-sm text-center">
                 <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-2xl mb-4">
@@ -228,7 +261,7 @@ const Home = () => {
             )}
           </section>
 
-          {/* === 5. NÚT XEM THÊM === */}
+          {/* === 6. NÚT XEM THÊM === */}
           {hasNextPage && places?.length > 0 && (
             <div className="flex justify-center pt-2 pb-8">
               <button

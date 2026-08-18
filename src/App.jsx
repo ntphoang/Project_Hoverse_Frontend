@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import AdminLayout from "./layouts/AdminLayout";
 import { AdminCategoryManage } from "./features/category";
 import AdminTagManage from "./features/tag/pages/AdminTagManage";
+import AdminDashboard from "./features/admin/pages/AdminDashboard";
 
 function App() {
   useFetchFavoriteIds();
@@ -76,6 +77,11 @@ function App() {
             <Route
               path="/admin/tags"
               element={<AdminTagManage></AdminTagManage>}
+            ></Route>
+
+            <Route
+              path="/admin/dashboard"
+              element={<AdminDashboard></AdminDashboard>}
             ></Route>
           </Route>
         </Route>

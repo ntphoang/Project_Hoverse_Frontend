@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { path: "/", label: "Trang chủ", isExact: true },
   { path: "/favorites", label: "Yêu thích" },
   { path: "/about", label: "Giới thiệu" },
-  { path: "/admin/places?tab=pending&page=0", label: "Quản lý" },
+  { path: "/admin/dashboard", label: "Quản lý" },
 ];
 
 const AVATAR_DEFAULT =
@@ -18,6 +18,11 @@ export default function Header() {
   const logout = useAuthStore((state) => state.logout);
   const { resendVerify, countdown, isLoading, error } = useResendVerify();
   const navigate = useNavigate();
+
+  const navItems =
+    user.role === "ADMIN"
+      ? NAV_ITEMS
+      : NAV_ITEMS.filter((item) => !item.path.startsWith("/admin/"));
 
   const handleLogout = () => {
     logout();
@@ -48,7 +53,7 @@ export default function Header() {
         {/* 2. MAIN NAVIGATION */}
         <nav aria-label="Main Navigation" className="hidden md:block">
           <ul className="flex items-center gap-1 m-0 p-0 list-none">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <li key={item.path}>
                 <NavLink
                   to={item.path}

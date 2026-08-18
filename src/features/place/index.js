@@ -1,6 +1,7 @@
 export { default as AddPlaceModal } from "./components/AddPlaceModal";
 export { default as PlaceItem } from "./components/PlaceItem";
 export { default as MapPicker } from "./components/MapPicker";
+export { default as PlaceTopRatingList } from "./components/PlaceTopRatingList";
 
 export { default as PlaceDetail } from "./pages/PlaceDetail";
 export { default as PlaceUpdate } from "./pages/PlaceUpdate";

@@ -55,6 +55,13 @@ const placeService = {
     );
     return response;
   },
+
+  getPlacesTopRating: async (reviewCount) => {
+    const response = await axiosClient.get(`/places/top-rating`, {
+      params: { reviewCount },
+    });
+    return response;
+  },
 };
 
 export default placeService;
