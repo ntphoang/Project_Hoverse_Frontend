@@ -62,6 +62,13 @@ const placeService = {
     });
     return response;
   },
+
+  countPlaceGroupByMonth: async (year) => {
+    const response = await axiosClient.get("/places/quantity", {
+      params: { year },
+    });
+    return response;
+  },
 };
 
 export default placeService;

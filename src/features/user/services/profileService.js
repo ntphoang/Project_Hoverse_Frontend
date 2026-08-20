@@ -39,6 +39,13 @@ const profileService = {
     );
     return response;
   },
+
+  countUserGroupByMonth: async (year) => {
+    const response = await axiosClient.get("/users/quantity", {
+      params: { year },
+    });
+    return response;
+  },
 };
 
 export default profileService;
