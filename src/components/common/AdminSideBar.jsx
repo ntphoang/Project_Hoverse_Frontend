@@ -6,12 +6,18 @@ import {
   TagIcon,
   ChartNoAxesCombined,
   X,
+  MessageCircleMore,
 } from "lucide-react";
 
 const ADMIN_MENUS = [
   { title: "Dashboard", path: "/admin/dashboard", icon: ChartNoAxesCombined },
   { title: "Quản lý địa điểm", path: "/admin/places", icon: MapPin },
   { title: "Quản lý người dùng", path: "/admin/users", icon: Users },
+  {
+    title: "Quản lý đánh giá",
+    path: "/admin/reviews",
+    icon: MessageCircleMore,
+  },
   { title: "Quản lý danh mục", path: "/admin/categories", icon: FolderTree },
   { title: "Quản lý tag", path: "/admin/tags", icon: TagIcon },
 ];

@@ -8,10 +8,10 @@ const AdminDashboard = () => {
     <div className="w-full flex flex-col gap-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-          <h1 className="text-2xl md:text-3xl tracking-tight">
+          <h1 className="text-2xl font-heading font-bold text-slate-900 tracking-tight">
             Tổng quan hệ thống
           </h1>
-          <p className="text-sm text-slate-500 mt-1.5">
+          <p className="text-sm text-slate-500 mt-1">
             Theo dõi các chỉ số quan trọng và nội dung nổi bật
           </p>
         </div>

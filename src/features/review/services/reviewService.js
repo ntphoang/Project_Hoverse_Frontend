@@ -19,6 +19,17 @@ const reviewService = {
     return response;
   },
 
+  getReviewsByConditions: async (conditions, page) => {
+    const response = await axiosClient.get("/places/admin/reviews", {
+      params: {
+        ...conditions,
+        page,
+        size: 10,
+      },
+    });
+    return response;
+  },
+
   updateReview: async (formData, reviewId) => {
     const response = await axiosClient.patch(
       `/places/reviews/${reviewId}`,
@@ -29,6 +40,14 @@ const reviewService = {
 
   deleteReview: async (reviewId) => {
     const response = await axiosClient.delete(`/places/reviews/${reviewId}`);
+    return response;
+  },
+
+  changeReviewStatus: async (reviewId, formData) => {
+    const response = await axiosClient.patch(
+      `/places/admin/reviews/${reviewId}/status`,
+      formData,
+    );
     return response;
   },
 };

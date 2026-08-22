@@ -4,4 +4,6 @@ export { default as ReviewList } from "./components/ReviewList";
 
 export { default as reviewService } from "./services/reviewService";
 
+export { default as AdminReviewManage } from "./pages/AdminReviewManage";
+
 export { default as useReviewCreate } from "./hooks/useReviewCreate";

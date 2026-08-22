@@ -15,6 +15,7 @@ import AdminLayout from "./layouts/AdminLayout";
 import { AdminCategoryManage } from "./features/category";
 import AdminTagManage from "./features/tag/pages/AdminTagManage";
 import AdminDashboard from "./features/admin/pages/AdminDashboard";
+import { AdminReviewManage } from "./features/review";
 
 function App() {
   useFetchFavoriteIds();
@@ -67,6 +68,11 @@ function App() {
             <Route
               path="/admin/users"
               element={<AdminUserManage></AdminUserManage>}
+            ></Route>
+
+            <Route
+              path="/admin/reviews"
+              element={<AdminReviewManage></AdminReviewManage>}
             ></Route>
 
             <Route

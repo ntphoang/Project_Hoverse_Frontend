@@ -48,7 +48,7 @@ const ReasonModal = ({
             className="inline-flex items-center px-5 py-2 text-sm font-semibold bg-danger text-white rounded-full hover:bg-red-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger focus-visible:ring-offset-2 disabled:opacity-50"
           >
             {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-            {isPending ? "Đang xử lý..." : "Xác nhận từ chối"}
+            {isPending ? "Đang xử lý..." : "Xác nhận"}
           </button>
         </div>
       </div>
