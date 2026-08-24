@@ -16,6 +16,7 @@ import { AdminCategoryManage } from "./features/category";
 import AdminTagManage from "./features/tag/pages/AdminTagManage";
 import AdminDashboard from "./features/admin/pages/AdminDashboard";
 import { AdminReviewManage } from "./features/review";
+import GeminiRecommendPlace from "./features/gemini/page/GeminiRecommendPlace";
 
 function App() {
   useFetchFavoriteIds();
@@ -52,6 +53,11 @@ function App() {
           <Route
             path={`edit-place/:placeId`}
             element={<PlaceUpdate></PlaceUpdate>}
+          ></Route>
+
+          <Route
+            path={"/ai"}
+            element={<GeminiRecommendPlace></GeminiRecommendPlace>}
           ></Route>
         </Route>
 

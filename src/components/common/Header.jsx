@@ -6,7 +6,7 @@ import { useResendVerify } from "@/features/auth";
 const NAV_ITEMS = [
   { path: "/", label: "Trang chủ", isExact: true },
   { path: "/favorites", label: "Yêu thích" },
-  { path: "/about", label: "Giới thiệu" },
+  { path: "/ai", label: "AI gợi ý" },
   { path: "/admin/dashboard", label: "Quản lý" },
 ];
 
