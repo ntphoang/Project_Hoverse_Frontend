@@ -2,12 +2,12 @@ import { useAuthStore } from "@/store";
 import axios from "axios";
 
 const axiosRefresh = axios.create({
-  baseURL: "http://localhost:8088/api/v1",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8088/api/v1",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
@@ -33,7 +33,7 @@ axiosClient.interceptors.response.use(
 
     const requestOld = error.config;
 
-    if (error.response.status === 401 && !requestOld._retry) {
+    if (error.response?.status === 401 && !requestOld._retry) {
       requestOld._retry = true;
 
       try {
