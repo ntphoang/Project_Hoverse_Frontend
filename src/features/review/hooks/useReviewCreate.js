@@ -27,6 +27,7 @@ const useReviewCreate = () => {
       return response;
     } catch (error) {
       setError("Có lỗi xảy ra khi lưu review" + error.message);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }

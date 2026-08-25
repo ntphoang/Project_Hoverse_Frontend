@@ -20,7 +20,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   const navItems =
-    user.role === "ADMIN"
+    user?.role === "ADMIN"
       ? NAV_ITEMS
       : NAV_ITEMS.filter((item) => !item.path.startsWith("/admin/"));
 

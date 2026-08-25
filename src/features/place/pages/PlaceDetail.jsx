@@ -9,6 +9,7 @@ import { MapPin, Star, Edit3, Heart, PenLine } from "lucide-react";
 import { useAuthStore, useFavoritesStore } from "@/store";
 import useActionGuard from "@/utils/useActionGuard";
 import placeService from "../services/placeService";
+import { toast } from "react-toastify";
 
 const PlaceDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,9 +36,9 @@ const PlaceDetail = () => {
       await submitReview(placeId, { rating, content }, files);
       setIsModalOpen(false);
       setRefreshTrigger((prev) => prev + 1);
-      alert("Cảm ơn đánh giá của bạn!");
+      toast.success("Cảm ơn đánh giá của bạn!");
     } catch (err) {
-      alert("Có lỗi xảy ra khi thêm review: " + err);
+      toast.error("Có lỗi xảy ra khi thêm review!");
     }
   };
 
@@ -48,7 +49,7 @@ const PlaceDetail = () => {
     if (!hasViewPlace) {
       // Dùng cờ ở SessionStorage để tránh user spam F5 liên tục gọi API làm chết DB
       placeService.updateViewCount(placeId);
-      sessionStorage.setItem(sessionStorageKey,true);
+      sessionStorage.setItem(sessionStorageKey, true);
     }
   }, [placeId]);
 

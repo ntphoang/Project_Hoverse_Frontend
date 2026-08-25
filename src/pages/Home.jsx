@@ -4,14 +4,23 @@ import {
   PlaceItem,
   usePlaceFilter,
   usePlacesInfinite,
-  PlaceTopRatingList
+  PlaceTopRatingList,
 } from "@/features/place";
 import { useFetchCategories } from "@/features/category";
 import { useFetchTags } from "@/features/tag";
 import Layout from "@/layouts/Layout";
 import { useNavigate } from "react-router-dom";
 import IconDictionary from "@/components/ui/IconDictionary";
-import { Search, Plus, Loader2, Sparkles, Check, TrendingUp } from "lucide-react";
+import {
+  Search,
+  Plus,
+  Loader2,
+  Sparkles,
+  Check,
+  TrendingUp,
+  Star,
+  MapPin,
+} from "lucide-react";
 import useActionGuard from "@/utils/useActionGuard";
 
 const Home = () => {
@@ -45,36 +54,89 @@ const Home = () => {
     <Layout>
       <main className="min-h-screen bg-slate-50 py-8 md:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-8 md:space-y-10">
-          
-          {/* === 1. HERO SECTION (BANNER CHÍNH) === */}
-          <section className="relative bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-[2rem] p-8 md:p-14 overflow-hidden shadow-sm flex flex-col items-start gap-4">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+          <section className="relative bg-slate-900 rounded-[2rem] p-8 md:p-14 overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-500/20 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent-500/10 rounded-full blur-[80px] pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
+            <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/ty4mmnvd/image/upload/v1700000000/grid-pattern_xyxyxy.svg')] opacity-[0.03] pointer-events-none"></div>
 
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase border border-white/20">
-              <Sparkles size={14} className="text-primary-400" />
-              <span>Nền tảng đánh giá hàng đầu</span>
+            <div className="lg:col-span-7 flex flex-col items-start gap-5 relative z-10">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase border border-white/20">
+                <Sparkles
+                  size={14}
+                  className="text-primary-400 text-accent-50"
+                />
+                <span className="text-white">Nền tảng đánh giá hàng đầu</span>
+              </div>
+
+              <h1 className="text-3xl md:text-5xl lg:text-[54px] text-white font-bold font-heading tracking-tight leading-[1.15]">
+                Khám phá thế giới <br className="hidden md:block" />
+                <span className="text-white bg-clip-text bg-gradient-to-r from-primary-400 to-accent-400">
+                  quanh bạn
+                </span>
+              </h1>
+
+              <p className="text-slate-300 text-base md:text-lg max-w-xl font-normal leading-relaxed">
+                Tìm kiếm hàng ngàn quán cà phê, trà sữa và địa điểm vui chơi lý
+                tưởng được đánh giá bởi cộng đồng giới trẻ.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 mt-2">
+                <button
+                  type="button"
+                  onClick={() => withVerified(() => setIsModalOpen(true))}
+                  className="px-8 py-3.5 bg-white text-slate-900 font-bold text-sm rounded-full shadow-md hover:bg-slate-100 hover:scale-[1.02] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white flex items-center gap-2 group cursor-pointer"
+                >
+                  <Plus
+                    size={18}
+                    className="group-hover:rotate-90 transition-transform duration-300"
+                  />
+                  Thêm địa điểm
+                </button>
+              </div>
             </div>
 
-            <h1 className="text-3xl text-white md:text-5xl font-bold font-heading tracking-tight max-w-2xl leading-tight">
-              Khám phá thế giới quanh bạn
-            </h1>
-
-            <p className="text-slate-300 text-base md:text-lg max-w-xl font-normal leading-relaxed">
-              Tìm kiếm hàng ngàn quán cà phê, trà sữa và địa điểm vui chơi lý
-              tưởng được đánh giá bởi cộng đồng.
-            </p>
-
-            <button
-              type="button"
-              onClick={() => withVerified(() => setIsModalOpen(true))}
-              className="mt-4 px-8 py-3.5 bg-white text-slate-900 font-semibold text-sm rounded-full shadow-md hover:bg-slate-100 hover:scale-[1.02] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white flex items-center gap-2 group cursor-pointer"
-            >
-              <Plus
-                size={18}
-                className="group-hover:rotate-90 transition-transform duration-300"
+            <div className="hidden lg:block lg:col-span-5 relative h-full min-h-[350px] z-10 w-full">
+              <img
+                src="https://res.cloudinary.com/ty4mmnvd/image/upload/v1787644536/viahe_mkjivv.jpg"
+                alt="Cafe vibe"
+                className="absolute top-4 right-12 w-56 h-72 object-cover rounded-2xl rotate-3 shadow-2xl border-[4px] border-white/10 hover:rotate-0 transition-transform duration-500"
               />
-              Thêm địa điểm mới
-            </button>
+
+              <img
+                src="https://res.cloudinary.com/ty4mmnvd/image/upload/v1787644536/viahe2_otgmsh.webp"
+                alt="Bubble tea"
+                className="absolute bottom-4 left-4 w-44 h-44 object-cover rounded-2xl -rotate-6 shadow-2xl border-[4px] border-white/10 hover:rotate-0 transition-transform duration-500"
+              />
+
+              <div className="absolute top-16 -left-6 bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-xl flex items-center gap-3 animate-[bounce_4s_infinite]">
+                <div className="bg-warning/20 p-2 rounded-lg">
+                  <Star className="w-5 h-5 text-warning fill-warning" />
+                </div>
+                <div>
+                  <p className="text-slate-900 font-bold text-sm leading-none">
+                    4.9/5 Điểm
+                  </p>
+                  <p className="text-slate-500 text-[11px] mt-1">
+                    Quán siêu chill
+                  </p>
+                </div>
+              </div>
+
+              {/* Floating Badge 2: Check-in */}
+              <div className="absolute bottom-20 -right-4 bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-xl flex items-center gap-3 animate-[bounce_5s_infinite_reverse]">
+                <div className="bg-primary-50 p-2 rounded-lg">
+                  <MapPin className="w-5 h-5 text-primary-600" />
+                </div>
+                <div>
+                  <p className="text-slate-900 font-bold text-sm leading-none">
+                    Gò Vấp, HCM
+                  </p>
+                  <p className="text-slate-500 text-[11px] mt-1">
+                    Đang hot gần đây
+                  </p>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* === 2. LEADERBOARD SECTION (BẢNG XẾP HẠNG TOP 5) === */}

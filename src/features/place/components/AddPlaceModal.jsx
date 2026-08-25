@@ -6,6 +6,7 @@ import MapPicker from "./MapPicker";
 import { tagService, useFetchTags } from "@/features/tag";
 import { X } from "lucide-react";
 import useCreatePlace from "../hooks/useCreatePlace";
+import { toast } from "react-toastify";
 
 const AddPlaceModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -43,6 +44,7 @@ const AddPlaceModal = ({ isOpen, onClose }) => {
       {
         onSuccess: () => {
           onClose();
+          toast.success("Địa điểm của bạn đang chờ duyệt!");
           setFormData({
             title: "",
             address: "",

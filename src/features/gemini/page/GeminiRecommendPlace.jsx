@@ -61,7 +61,7 @@ const GeminiRecommendPlace = () => {
                   <Bot className="w-8 h-8 md:w-10 md:h-10 text-primary-600" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold text-slate-900 tracking-tight mb-3 md:mb-4">
-                  Xin chào, {user.fullName}!
+                  Xin chào, {user.fullName || (user.email).split("@")[0]}!
                 </h1>
                 <p className="text-slate-500 text-sm md:text-lg max-w-xl mx-auto leading-relaxed">
                   Bạn muốn tìm địa điểm như thế nào hôm nay? Hãy mô tả phong cách, không gian hoặc vị trí bạn mong muốn.

@@ -24,7 +24,7 @@ const ProfileView = ({ profile }) => {
     <>
       <div className="w-full max-w-4xl mx-auto bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden transition-all">
         {/* COVER BACKGROUND */}
-        <div className="h-32 md:h-48 bg-slate-400 border-b border-slate-200 w-full" />
+        <div className="h-32 md:h-48 bg-slate-950 border-b border-slate-200 w-full" />
 
         <div className="px-6 md:px-10 pb-8 md:pb-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 -mt-12 md:-mt-16 mb-6 md:mb-8">
@@ -93,7 +93,7 @@ const ProfileView = ({ profile }) => {
           <div className="grid grid-cols-3 gap-4 border-t border-slate-100 pt-8">
             <div className="flex flex-col gap-1 md:gap-1.5">
               <span className="text-2xl md:text-3xl font-bold font-heading text-slate-900">
-                2,985
+                ...
               </span>
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 Đánh giá
@@ -102,7 +102,7 @@ const ProfileView = ({ profile }) => {
 
             <div className="flex flex-col gap-1 md:gap-1.5 border-l border-slate-100 pl-4 md:pl-6">
               <span className="text-2xl md:text-3xl font-bold font-heading text-slate-900">
-                132
+               ...
               </span>
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 Đang theo dõi
@@ -111,7 +111,7 @@ const ProfileView = ({ profile }) => {
 
             <div className="flex flex-col gap-1 md:gap-1.5 border-l border-slate-100 pl-4 md:pl-6">
               <span className="text-2xl md:text-3xl font-bold font-heading text-slate-900">
-                1.1M
+                ...
               </span>
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 Lượt thích

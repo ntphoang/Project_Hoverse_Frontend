@@ -3,7 +3,6 @@ import Layout from "@/layouts/Layout";
 import ProfileContainer from "../components/ProfileContainer";
 
 const ProfilePage = () => {
-  // Quản lý tiêu đề trang an toàn (Side effect)
   useEffect(() => {
     document.title = "Hồ sơ cá nhân | Hoverse";
   }, []);
@@ -12,7 +11,6 @@ const ProfilePage = () => {
     <Layout>
       <main className="min-h-[calc(100vh-64px)] bg-slate-50 py-10 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-4xl mx-auto flex flex-col">
-          {/* Component Container chứa logic xử lý */}
           <ProfileContainer />
         </div>
       </main>
