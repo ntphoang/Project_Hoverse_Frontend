@@ -33,7 +33,17 @@ axiosClient.interceptors.response.use(
 
     const requestOld = error.config;
 
-    if (error.response?.status === 401 && !requestOld._retry) {
+    const isAuthRequest =
+      requestOld.url?.includes("/auth/login") ||
+      requestOld.url?.includes("/auth/register") ||
+      requestOld.url?.includes("/auth/refresh-token");
+
+    // Chỉ refresh token khi request không phải auth request
+    if (
+      error.response?.status === 401 &&
+      !requestOld._retry &&
+      !isAuthRequest
+    ){
       requestOld._retry = true;
 
       try {
