@@ -1,29 +1,15 @@
 import { useEffect, useState } from "react";
 import tagService from "../services/tagService";
+import { useQuery } from "@tanstack/react-query";
 
 const useFetchTags = () => {
-  const [tags, setTags] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  return useQuery({
+    queryKey: ["tags"],
 
-  const fetchTags = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const response = await tagService.getAllTags();
-      setTags(response);
-    } catch (error) {
-      setError("Có lỗi khi tải tag " + error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTags();
-  }, []);
-
-  return { tags, isLoading, error };
+    queryFn: async () => {
+      return await tagService.getAllTags();
+    },
+  });
 };
 
 export default useFetchTags;

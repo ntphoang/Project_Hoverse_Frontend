@@ -21,7 +21,7 @@ const AddPlaceModal = ({ isOpen, onClose }) => {
   const [files, setFiles] = useState([]);
 
   const { data: categories } = useFetchCategories();
-  const { tags } = useFetchTags();
+  const { data: tags } = useFetchTags();
 
   const { mutate: createPlace, isPending } = useCreatePlace();
 

@@ -25,7 +25,7 @@ import useActionGuard from "@/utils/useActionGuard";
 
 const Home = () => {
   const { data: categories } = useFetchCategories();
-  const { tags } = useFetchTags();
+  const { data: tags } = useFetchTags();
   const {
     appliedFilter,
     draftFilter,

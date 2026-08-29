@@ -31,7 +31,7 @@ const PlaceUpdate = () => {
   } = usePlaceUpdate(placeId);
 
   const { data: categories } = useFetchCategories();
-  const { tags } = useFetchTags();
+  const { data: tags } = useFetchTags();
 
   if (isLoading) {
     return (
