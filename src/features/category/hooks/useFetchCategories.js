@@ -1,29 +1,14 @@
-import { useEffect, useState } from "react";
 import categoryService from "../services/categoryService";
+import { useQuery } from "@tanstack/react-query";
 
 const useFetchCategories = () => {
-  const [categories, setCategories] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  return useQuery({
+    queryKey: ["categories"],
 
-  const fetchCategories = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const response = await categoryService.getCategoryByConditions();
-      setCategories(response);
-    } catch (error) {
-      setError("Có lỗi khi tải danh mục " + error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  return { categories, isLoading, error };
+    queryFn: async () => {
+      return await categoryService.getCategoryByConditions();
+    },
+  });
 };
 
 export default useFetchCategories;

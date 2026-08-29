@@ -24,7 +24,7 @@ import {
 import useActionGuard from "@/utils/useActionGuard";
 
 const Home = () => {
-  const { categories } = useFetchCategories();
+  const { data: categories } = useFetchCategories();
   const { tags } = useFetchTags();
   const {
     appliedFilter,

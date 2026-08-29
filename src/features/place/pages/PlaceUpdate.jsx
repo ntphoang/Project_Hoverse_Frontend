@@ -4,7 +4,13 @@ import usePlaceUpdate from "../hooks/usePlaceUpdate";
 import { useFetchCategories } from "@/features/category";
 import MapPicker from "../components/MapPicker";
 import { useFetchTags } from "@/features/tag";
-import { X, UploadCloud, MapPin, Image as ImageIcon, Loader2 } from "lucide-react";
+import {
+  X,
+  UploadCloud,
+  MapPin,
+  Image as ImageIcon,
+  Loader2,
+} from "lucide-react";
 
 const PlaceUpdate = () => {
   const { placeId } = useParams();
@@ -23,8 +29,8 @@ const PlaceUpdate = () => {
     onSelectAddress,
     handleSubmit,
   } = usePlaceUpdate(placeId);
-  
-  const { categories } = useFetchCategories();
+
+  const { data: categories } = useFetchCategories();
   const { tags } = useFetchTags();
 
   if (isLoading) {
@@ -42,7 +48,6 @@ const PlaceUpdate = () => {
     <Layout>
       <div className="min-h-screen bg-slate-50 py-8 md:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
-          
           <header className="px-8 md:px-12 py-10 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
             <h1 className="text-slate-50 text-3xl md:text-4xl font-bold font-heading tracking-tight mb-2">
               Chỉnh sửa địa điểm
@@ -54,11 +59,12 @@ const PlaceUpdate = () => {
 
           <form onSubmit={handleSubmit} className="p-8 md:p-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
-              
               {/* === CỘT 1: THÔNG TIN CƠ BẢN === */}
               <div className="space-y-8">
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-semibold text-slate-900 ml-1">Tiêu đề</label>
+                  <label className="text-sm font-semibold text-slate-900 ml-1">
+                    Tiêu đề
+                  </label>
                   <input
                     type="text"
                     name="title"
@@ -70,7 +76,9 @@ const PlaceUpdate = () => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-semibold text-slate-900 ml-1">Mô tả</label>
+                  <label className="text-sm font-semibold text-slate-900 ml-1">
+                    Mô tả
+                  </label>
                   <textarea
                     name="description"
                     value={formData.description || ""}
@@ -105,9 +113,10 @@ const PlaceUpdate = () => {
 
               {/* === CỘT 2: PHÂN LOẠI & HÌNH ẢNH === */}
               <div className="space-y-8">
-                
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-semibold text-slate-900 ml-1">Danh mục</label>
+                  <label className="text-sm font-semibold text-slate-900 ml-1">
+                    Danh mục
+                  </label>
                   <div className="relative">
                     <select
                       name="categoryId"
@@ -115,7 +124,9 @@ const PlaceUpdate = () => {
                       onChange={handleInputChange}
                       className="w-full h-14 px-5 bg-slate-50 border border-slate-200 rounded-full text-slate-900 focus:bg-white focus:outline-none focus:border-slate-300 focus:ring-2 focus:ring-slate-900/10 transition-all appearance-none cursor-pointer"
                     >
-                      <option value="" disabled>-- Chọn danh mục --</option>
+                      <option value="" disabled>
+                        -- Chọn danh mục --
+                      </option>
                       {categories?.map((category) => (
                         <option key={category.id} value={category.id}>
                           {category.name}
@@ -123,15 +134,27 @@ const PlaceUpdate = () => {
                       ))}
                     </select>
                     <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none">
-                      <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      <svg
+                        className="w-4 h-4 text-slate-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-semibold text-slate-900 ml-1">Tiện ích</label>
+                  <label className="text-sm font-semibold text-slate-900 ml-1">
+                    Tiện ích
+                  </label>
                   <div className="flex flex-wrap gap-2.5">
                     {tags?.map((tag) => {
                       const isActive = formData.tagIds?.includes(tag.id);
@@ -157,13 +180,20 @@ const PlaceUpdate = () => {
                   <label className="text-sm font-semibold text-slate-900 ml-1 flex items-center gap-2">
                     <ImageIcon size={16} /> Thư viện hình ảnh
                   </label>
-                  
+
                   {/* Grid Hình ảnh */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
                     {/* Ảnh cũ từ Server */}
                     {oldImages?.map((image) => (
-                      <div key={image.id} className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-200 bg-slate-100">
-                        <img src={image.url} alt="Cũ" className="w-full h-full object-cover" />
+                      <div
+                        key={image.id}
+                        className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-200 bg-slate-100"
+                      >
+                        <img
+                          src={image.url}
+                          alt="Cũ"
+                          className="w-full h-full object-cover"
+                        />
                         <button
                           type="button"
                           onClick={() => handleRemoveOldImage(image.id)}
@@ -178,8 +208,15 @@ const PlaceUpdate = () => {
                     {newFiles?.map((file, index) => {
                       const previewUrl = URL.createObjectURL(file);
                       return (
-                        <div key={index} className="relative aspect-square rounded-2xl overflow-hidden group border-2 border-primary-500/30 bg-primary-50">
-                          <img src={previewUrl} alt="Mới" className="w-full h-full object-cover opacity-90" />
+                        <div
+                          key={index}
+                          className="relative aspect-square rounded-2xl overflow-hidden group border-2 border-primary-500/30 bg-primary-50"
+                        >
+                          <img
+                            src={previewUrl}
+                            alt="Mới"
+                            className="w-full h-full object-cover opacity-90"
+                          />
                           <span className="absolute bottom-2 left-2 bg-success text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
                             Mới
                           </span>
@@ -208,21 +245,20 @@ const PlaceUpdate = () => {
                     </label>
                   </div>
                 </div>
-
               </div>
             </div>
 
             {/* === FOOTER ACTIONS === */}
             <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-4">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => navigate(-1)}
                 className="w-full sm:w-auto px-8 py-3.5 rounded-full text-sm font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
               >
                 Hủy bỏ
               </button>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={isSubmitting}
                 className="w-full sm:w-auto px-10 py-3.5 rounded-full text-sm font-semibold text-white bg-black hover:bg-slate-800 shadow-sm transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
@@ -236,7 +272,6 @@ const PlaceUpdate = () => {
                 )}
               </button>
             </div>
-            
           </form>
         </div>
       </div>
