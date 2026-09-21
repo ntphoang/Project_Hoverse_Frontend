@@ -1,29 +1,15 @@
 import { useEffect, useState } from "react";
 import placeService from "../services/placeService";
+import { useQuery } from "@tanstack/react-query";
 
 const usePlaceDetail = (placeId) => {
-  const [place, setPlace] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  return useQuery({
+    queryKey: ["place-detail", placeId],
 
-  const fetchPlace = async (placeId) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const response = await placeService.getPlaceDetail(placeId);
-      setPlace(response);
-    } catch (err) {
-      setError("Có lỗi khi tải chi tiết địa điểm " + err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPlace(placeId);
-  }, [placeId]);
-
-  return { place, isLoading, error };
+    queryFn: async () => {
+      return await placeService.getPlaceDetail(placeId);
+    },
+  });
 };
 
 export default usePlaceDetail;

@@ -22,7 +22,11 @@ const PlaceDetail = () => {
 
   const user = useAuthStore((state) => state.user);
 
-  const { place, isLoading, error: placeDetailError } = usePlaceDetail(placeId);
+  const {
+    data: place,
+    isLoading,
+    error: placeDetailError,
+  } = usePlaceDetail(placeId);
   const {
     isSubmitting,
     error: reviewCreateError,
