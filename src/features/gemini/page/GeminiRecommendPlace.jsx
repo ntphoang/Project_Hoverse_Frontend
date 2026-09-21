@@ -87,7 +87,7 @@ const GeminiRecommendPlace = () => {
             {isPending && (
               <div className="flex flex-col items-center justify-center py-10 text-slate-400 animate-in fade-in duration-300">
                 <Sparkles className="w-8 h-8 md:w-10 md:h-10 animate-pulse text-primary-500 mb-3" />
-                <p className="font-heading font-bold text-slate-700 text-base md:text-lg text-center">Gemini đang phân tích dữ liệu...</p>
+                <p className="font-heading font-bold text-slate-700 text-base md:text-lg text-center">A.I đang phân tích dữ liệu...</p>
               </div>
             )}
 
@@ -125,7 +125,7 @@ const GeminiRecommendPlace = () => {
                 ref={inputRef}
                 type="text"
                 className="w-full h-12 md:h-14 pl-12 md:pl-14 pr-14 md:pr-16 bg-transparent rounded-2xl md:rounded-full text-slate-900 text-sm font-medium placeholder:text-slate-400 focus:outline-none"
-                placeholder="Hỏi Gemini tìm quán cafe, trà sữa..."
+                placeholder="Hỏi A.I tìm quán cafe, trà sữa..."
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -146,7 +146,7 @@ const GeminiRecommendPlace = () => {
               </button>
             </div>
             <p className="text-center text-[10px] md:text-[11px] font-medium text-slate-400 mt-2 px-2">
-              Gemini có thể đưa ra thông tin không chính xác, vì vậy hãy kiểm chứng lại.
+              A.I có thể đưa ra thông tin không chính xác, vì vậy hãy kiểm chứng lại.
             </p>
           </div>
         </div>
