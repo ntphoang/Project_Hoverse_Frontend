@@ -20,6 +20,23 @@ const AddPlaceModal = ({ isOpen, onClose }) => {
   });
   const [files, setFiles] = useState([]);
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        setFormData((prev) => ({
+          ...prev,
+          latitude,
+          longitude,
+        }));
+      },
+      (error) => {
+        console.log("Lỗi lấy vị trí: ", error);
+      },
+    );
+  }, []);
+
   const { data: categories } = useFetchCategories();
   const { data: tags } = useFetchTags();
 
