@@ -8,7 +8,7 @@ const useAdminPlaces = ({ tab, page }) => {
     queryFn: async () => {
       const response = placeService.getPlaceByConditions(
         page,
-        { status: tab.toUpperCase() },
+        { status: tab.toUpperCase(), sort: "createdAt,desc" },
         10,
       );
       return response;

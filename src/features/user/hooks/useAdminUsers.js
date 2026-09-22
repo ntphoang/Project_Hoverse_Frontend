@@ -8,7 +8,7 @@ const useAdminUsers = ({ tab, page }) => {
     queryFn: async () => {
       return await profileService.getUserByConditions(
         page,
-        { status: tab.toUpperCase() },
+        { status: tab.toUpperCase(), sort: "createdAt,desc" },
         10,
       );
     },

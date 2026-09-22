@@ -28,13 +28,13 @@ const AdminUserItem = ({ user, tab }) => {
     switch (status) {
       case "BANNED":
         return (
-          <span className="px-2.5 py-1 text-[11px] font-bold text-danger bg-danger/10 rounded-full uppercase tracking-wider">
+          <span className="px-2.5 py-1 text-[10px] md:text-[11px] font-bold text-danger bg-danger/10 rounded-full uppercase tracking-wider">
             Đã khóa
           </span>
         );
       default:
         return (
-          <span className="px-2.5 py-1 text-[11px] font-bold text-success bg-success/10 rounded-full uppercase tracking-wider">
+          <span className="px-2.5 py-1 text-[10px] md:text-[11px] font-bold text-success bg-success/10 rounded-full uppercase tracking-wider">
             Đang hoạt động
           </span>
         );
@@ -60,7 +60,6 @@ const AdminUserItem = ({ user, tab }) => {
     }
   };
 
-  // Format ngày tháng
   const formattedDate = user.createdAt
     ? new Date(user.createdAt).toLocaleDateString("vi-VN", {
         day: "2-digit",
@@ -81,25 +80,20 @@ const AdminUserItem = ({ user, tab }) => {
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap-4 p-4 md:p-5 bg-white border border-slate-100 rounded-xl hover:border-slate-300 hover:shadow-md transition-all duration-200">
-      {/* CỘT TRÁI: Hình ảnh & Thông tin */}
-      <div className="flex flex-col sm:flex-row gap-4 sm:items-start flex-1 min-w-0">
+      {/* CỘT TRÁI*/}
+      <div className="flex flex-row gap-3 sm:gap-4 items-center sm:items-start flex-1 min-w-0">
         {/* Ảnh Avatar */}
-        <div className="relative shrink-0 w-full sm:w-20 h-40 sm:h-20 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+        <div className="shrink-0 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
           <img
             src={user.avatarUrl || IMAGE_DEFAULT}
             alt={user.fullName}
             loading="lazy"
             className="w-full h-full object-cover"
           />
-          {/* Badge trạng thái */}
-          <div className="absolute top-2 left-2 sm:hidden">
-            {getStatusBadge(user.status)}
-          </div>
         </div>
 
         {/* Cụm thông tin chi tiết */}
-        <div className="flex flex-col gap-1.5 flex-1 min-w-0 mt-1">
-          {/* Tiêu đề & ID */}
+        <div className="flex flex-col gap-1 sm:gap-1.5 flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="hidden sm:inline-flex items-center justify-center px-1.5 py-0.5 bg-slate-50 text-slate-500 font-bold text-xs rounded border border-slate-200 shrink-0">
               #{user.id}
@@ -109,18 +103,17 @@ const AdminUserItem = ({ user, tab }) => {
             </h3>
           </div>
 
-          {/* Địa chỉ email */}
-          <div className="flex items-start gap-1.5 text-sm text-slate-600">
-            <MailIcon className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+          <div className="flex items-center gap-1.5 text-xs md:text-sm text-slate-600">
+            <MailIcon className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400 shrink-0" />
             <span className="line-clamp-1">
               {user.email || "Chưa cập nhật email"}
             </span>
           </div>
 
-          {/* Dòng dưới cùng: Ngày tạo & Badge */}
-          <div className="flex items-center gap-4 mt-1 sm:mt-2">
-            <div className="hidden sm:block">{getStatusBadge(user.status)}</div>
-            <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
+          {/* Dòng dưới cùng: Trạng thái & Ngày tạo */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-0.5 sm:mt-1">
+            <div>{getStatusBadge(user.status)}</div>
+            <div className="flex items-center gap-1.5 text-[11px] md:text-xs font-medium text-slate-400">
               <CalendarDays className="w-3.5 h-3.5" />
               <span>Tạo ngày {formattedDate}</span>
             </div>
@@ -135,7 +128,7 @@ const AdminUserItem = ({ user, tab }) => {
           const Icon = config.icon;
 
           return (
-            <div key={status}>
+            <div key={status} className="flex-1 sm:flex-none">
               <button
                 type="button"
                 disabled={isPending}
@@ -150,7 +143,7 @@ const AdminUserItem = ({ user, tab }) => {
                   }
                 }}
                 className={`
-                  flex items-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm font-semibold rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed
+                  w-full sm:w-auto flex items-center justify-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm font-semibold rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed
                   ${config.style}
                 `}
               >
@@ -159,7 +152,7 @@ const AdminUserItem = ({ user, tab }) => {
                 ) : (
                   <Icon className="w-3.5 h-3.5" />
                 )}
-                <span className="hidden lg:inline">{config.label}</span>
+                <span>{config.label}</span>
               </button>
             </div>
           );
@@ -175,7 +168,7 @@ const AdminUserItem = ({ user, tab }) => {
           handleConfirmReason={handleConfirmReason}
           reason={reason}
           title={{
-            supTitle: "Khóa tài khoản người dùng",
+            supTitle: "Khóa tài khoản",
             subTitle: "Vui lòng nhập lý do khóa tài khoản người dùng này!",
             placeholder: "Ví dụ: Vi phạm tiêu chuẩn cộng đồng...",
           }}

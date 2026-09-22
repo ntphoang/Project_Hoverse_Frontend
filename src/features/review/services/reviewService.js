@@ -14,6 +14,7 @@ const reviewService = {
       params: {
         page: page,
         size: size,
+        sort: "createdAt,desc",
       },
     });
     return response;
@@ -25,6 +26,7 @@ const reviewService = {
         ...conditions,
         page,
         size: 10,
+        sort: "createdAt,desc",
       },
     });
     return response;
