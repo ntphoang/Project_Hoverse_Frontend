@@ -5,7 +5,7 @@ import Footer from "@/components/common/Footer";
 import { AddReviewModal, ReviewList, useReviewCreate } from "@/features/review";
 import MapPicker from "../components/MapPicker";
 import usePlaceDetail from "../hooks/usePlaceDetail";
-import { MapPin, Star, Edit3, Heart, PenLine } from "lucide-react";
+import { MapPin, Star, Edit3, Heart, PenLine, Navigation } from "lucide-react";
 import { useAuthStore, useFavoritesStore } from "@/store";
 import useActionGuard from "@/utils/useActionGuard";
 import placeService from "../services/placeService";
@@ -46,6 +46,13 @@ const PlaceDetail = () => {
     }
   };
 
+  const handleGetDirections = () => {
+    const { latitude, longitude } = place;
+
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+    window.open(url, "_blank");
+  };
+
   useEffect(() => {
     const sessionStorageKey = `hasViewPlace_${placeId}`;
     const hasViewPlace = sessionStorage.getItem(sessionStorageKey);
@@ -74,10 +81,6 @@ const PlaceDetail = () => {
         <p className="text-slate-600">{placeDetailError}</p>
       </div>
     );
-
-  if (reviewCreateError) {
-    console.log("Thêm review thất bại: " + reviewCreateError);
-  }
 
   const isAuthor = user?.email === place.authorEmail || user?.role === "ADMIN";
   const isFavorite = favoriteIds.includes(place.id); // Trích xuất state để code UI clean hơn
@@ -220,6 +223,17 @@ const PlaceDetail = () => {
                     </p>
                   </div>
 
+                  <button
+                    onClick={handleGetDirections}
+                    className="w-full py-3.5 px-4 rounded-full font-semibold text-sm flex items-center justify-center gap-2 
+                      transition-all duration-200 active:scale-[0.98]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2
+                      bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:text-slate-900"
+                  >
+                    <Navigation size={16} className="text-slate-500" />
+                    Mở Google Maps
+                  </button>
+
                   <div className="flex items-center gap-3">
                     <Star
                       className="fill-slate-900 text-slate-900 shrink-0"
@@ -242,7 +256,7 @@ const PlaceDetail = () => {
                     Viết đánh giá
                   </button>
 
-                  {/* NÚT LƯU ĐỊA ĐIỂM ĐÃ ĐƯỢC TỐI ƯU */}
+                  {/* NÚT LƯU ĐỊA ĐIỂM */}
                   <button
                     onClick={() => withAuth(() => toggleFavorite(place))}
                     className={`
