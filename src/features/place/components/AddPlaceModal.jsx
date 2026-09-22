@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import placeService from "../services/placeService";
-import { categoryService, useFetchCategories } from "@/features/category";
+import { useFetchCategories } from "@/features/category";
 import geocodeService from "@/services/geocodeService";
 import MapPicker from "./MapPicker";
-import { tagService, useFetchTags } from "@/features/tag";
+import { useFetchTags } from "@/features/tag";
 import { X } from "lucide-react";
 import useCreatePlace from "../hooks/useCreatePlace";
 import { toast } from "react-toastify";
@@ -20,29 +19,10 @@ const AddPlaceModal = ({ isOpen, onClose }) => {
   });
   const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-
-        setFormData((prev) => ({
-          ...prev,
-          latitude,
-          longitude,
-        }));
-      },
-      (error) => {
-        console.log("Lỗi lấy vị trí: ", error);
-      },
-    );
-  }, []);
-
   const { data: categories } = useFetchCategories();
   const { data: tags } = useFetchTags();
 
   const { mutate: createPlace, isPending } = useCreatePlace();
-
-  if (!isOpen) return null;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -99,6 +79,21 @@ const AddPlaceModal = ({ isOpen, onClose }) => {
       };
     });
   };
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        onSelectAddress(latitude, longitude);
+      },
+      (error) => {
+        console.log("Lỗi lấy vị trí: ", error);
+      },
+    );
+  }, []);
+
+  if (!isOpen) return null;
 
   return (
     <div
