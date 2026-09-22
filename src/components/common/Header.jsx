@@ -14,6 +14,9 @@ const NAV_ITEMS = [
 const AVATAR_DEFAULT =
   "https://res.cloudinary.com/ty4mmnvd/image/upload/v1785929829/avatar-default_ziyif2.svg";
 
+const LOGO =
+  "https://res.cloudinary.com/ty4mmnvd/image/upload/v1790067255/Hoverse_Logo_Ngang_Dai_1_xdgl92.png";
+
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
@@ -45,16 +48,13 @@ export default function Header() {
   return (
     <header className="sticky top-4 w-full z-50 px-4 md:px-6 lg:px-8">
       <div className="relative max-w-7xl mx-auto px-4 md:px-6 py-2.5 bg-white/90 backdrop-blur-md rounded-full shadow-card flex justify-between items-center border border-slate-200">
-        
         {/* 1. BRAND / LOGO */}
         <Link
           to="/"
-          className="flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/50 rounded-lg"
+          className="flex items-center transition-transform duration-300 hover:scale-[1.02] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/50 rounded-lg"
           aria-label="Về trang chủ Hoverse"
         >
-          <h1 className="text-2xl font-extrabold font-heading text-slate-900 tracking-tight">
-            Hoverse
-          </h1>
+          <img src={LOGO} alt="Hoverse Logo" className="h-10 sm:h-12 w-auto" />
         </Link>
 
         {/* 2. MAIN NAVIGATION */}
@@ -147,7 +147,7 @@ export default function Header() {
                 {item.label}
               </NavLink>
             ))}
-            
+
             {user ? (
               <button
                 onClick={() => {
@@ -178,7 +178,8 @@ export default function Header() {
             <div className="flex items-center gap-2.5 text-slate-800 text-center sm:text-left">
               <AlertTriangle className="w-5 h-5 text-warning shrink-0" />
               <span>
-                Tài khoản của bạn chưa được xác thực. Một số tính năng đã bị giới hạn.
+                Tài khoản của bạn chưa được xác thực. Một số tính năng đã bị
+                giới hạn.
               </span>
             </div>
 
@@ -194,7 +195,9 @@ export default function Header() {
                 }
               `}
             >
-              {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />}
+              {isLoading && (
+                <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+              )}
               {countdown > 0 ? `Gửi lại sau (${countdown}s)` : "Gửi lại mã"}
             </button>
           </div>
