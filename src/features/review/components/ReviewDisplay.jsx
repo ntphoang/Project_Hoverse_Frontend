@@ -7,15 +7,15 @@ const ReviewDisplay = ({ review }) => {
       {/* Tầng 1: Header (User Info + Actions + Rating) */}
       <div className="flex items-start justify-between gap-4">
         {/* User Info */}
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
           <img
             src={review.avatarUrl}
             alt={`Avatar của ${review.username}`}
             loading="lazy"
             className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border border-slate-100 shrink-0 bg-slate-50"
           />
-          <div className="flex flex-col">
-            <h4 className="font-heading font-bold text-slate-900 text-base md:text-lg line-clamp-1">
+          <div className="flex flex-col flex-1 min-w-0">
+            <h4 className="font-heading font-bold text-slate-900 text-base md:text-lg line-clamp-1 break-all">
               {review.authorFullname || review.username}
             </h4>
             <time
