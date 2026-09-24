@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axiosClient from "@/api/axiosClient";
 import { Mail, Lock, ShieldCheck, Globe, ArrowLeft } from "lucide-react";
 import { useAuthStore } from "@/store";
+import { GoogleLogin } from "@react-oauth/google";
 
 const COVER_IMAGE_DEFAULT =
   "https://res.cloudinary.com/ty4mmnvd/image/upload/v1787644536/viahe_mkjivv.jpg";
@@ -45,6 +46,27 @@ const Login = () => {
     } catch (err) {
       const serverMessage =
         err.response?.data || "Tài khoản hoặc mật khẩu không chính xác.";
+      setError(serverMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await axiosClient.post("/auth/google", {
+        credential: credentialResponse.credential,
+      });
+
+      login(response);
+
+      navigate(from, { replace: true });
+    } catch (error) {
+      const serverMessage =
+        error.response?.data || "Đăng nhập Google thất bại.";
       setError(serverMessage);
     } finally {
       setLoading(false);
@@ -119,13 +141,49 @@ const Login = () => {
 
             <div className="w-3/4 h-px bg-slate-200/80 my-6 lg:my-8"></div>
 
-            <button
-              type="button"
-              className="w-full h-12 lg:h-14 bg-white text-slate-900 rounded-full text-sm font-medium shadow-sm border border-slate-100/50 hover:bg-slate-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 flex items-center justify-center gap-2.5"
-            >
-              <Globe size={18} className="text-slate-700 lg:w-5 lg:h-5" />
-              Đăng nhập với Google
-            </button>
+            <div className="relative w-full h-12 lg:h-14">
+              {/* GoogleLogin thật */}
+              <div className="absolute inset-0 z-10 opacity-0">
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={() => {
+                    setError("Đăng nhập Google thất bại.");
+                  }}
+                  useOneTap={false}
+                />
+              </div>
+
+              {/* UI Google của Hoverse */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="w-full h-full bg-white text-slate-900 rounded-full text-sm font-medium shadow-sm border border-slate-100/80 flex items-center justify-center gap-2.5 transition-all duration-200 hover:bg-slate-50 hover:border-slate-200 hover:shadow-md">
+                  <svg
+                    width="19"
+                    height="19"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="shrink-0"
+                  >
+                    <path
+                      fill="#4285F4"
+                      d="M21.35 12.27c0-.78-.07-1.53-.22-2.25H12v4.26h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.4Z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 21.5c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.29v2.53A9.75 9.75 0 0 0 12 21.5Z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M6.54 13.58A5.87 5.87 0 0 1 6.23 12c0-.55.1-1.08.31-1.58V7.89H3.29A9.5 9.5 0 0 0 2.25 12c0 1.53.37 2.98 1.04 4.11l3.25-2.53Z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M12 6.39c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.47 14.63 2.5 12 2.5a9.75 9.75 0 0 0-8.71 5.39l3.25 2.53C7.31 8.11 9.46 6.39 12 6.39Z"
+                    />
+                  </svg>
+                  <span>Đăng nhập với Google</span>
+                </div>
+              </div>
+            </div>
 
             <div className="mt-6 lg:mt-8 text-xs lg:text-sm text-slate-500">
               Bạn chưa có tài khoản?{" "}

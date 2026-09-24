@@ -57,14 +57,11 @@ const GeminiRecommendPlace = () => {
             
             {!hasStartedChat && (
               <div className="flex flex-col items-center text-center animate-in fade-in zoom-in duration-500 px-2">
-                <div className="inline-flex items-center justify-center p-3 md:p-4 bg-primary-50 rounded-2xl mb-4 md:mb-6 border border-primary-100 shadow-sm">
-                  <Bot className="w-8 h-8 md:w-10 md:h-10 text-primary-600" />
-                </div>
-                <h1 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold text-slate-900 tracking-tight mb-3 md:mb-4">
+                <h1 className="text-xl sm:text-3xl md:text-5xl font-heading font-bold text-slate-900 tracking-tight mb-3 md:mb-4">
                   Xin chào, {user.fullName || (user.email).split("@")[0]}!
                 </h1>
                 <p className="text-slate-500 text-sm md:text-lg max-w-xl mx-auto leading-relaxed">
-                  Bạn muốn tìm địa điểm như thế nào hôm nay? Hãy mô tả phong cách, không gian hoặc vị trí bạn mong muốn.
+                  Hãy mô tả phong cách, không gian hoặc vị trí bạn mong muốn.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center gap-2 mt-6 md:mt-8 max-w-2xl">
