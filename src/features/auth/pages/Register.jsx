@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "@/api/axiosClient";
 import { Mail, Lock, ShieldCheck, Globe, ArrowLeft } from "lucide-react";
+import { GoogleLogin } from "@react-oauth/google";
 
 const COVER_IMAGE_DEFAULT =
   "https://res.cloudinary.com/ty4mmnvd/image/upload/v1787644536/viahe2_otgmsh.webp";
@@ -69,8 +70,10 @@ const Register = () => {
       navigate("/login");
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Đăng ký thất bại. Vui lòng thử lại!";
+        error.response?.data || "Đăng ký thất bại. Vui lòng thử lại!";
       setApiError(errorMessage);
+      console.log(error.response);
+      
     } finally {
       setIsLoading(false);
     }
@@ -88,12 +91,9 @@ const Register = () => {
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 mb-3 lg:mb-4 tracking-tight">
-              Tham gia ngay hôm nay
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 lg:mb-4 tracking-tight">
+              Tạo tài khoản mới
             </h2>
-            <p className="text-slate-500 text-xs sm:text-sm lg:text-base leading-relaxed mb-8 lg:mb-10 max-w-xs">
-              Tạo tài khoản để lưu và đánh giá các địa điểm yêu thích của bạn.
-            </p>
 
             {apiError && (
               <div className="w-full p-3 mb-6 text-sm font-medium text-danger bg-danger/5 border-l-4 border-danger text-left rounded-r-md">
@@ -207,16 +207,6 @@ const Register = () => {
                 {isLoading ? "Đang đăng ký..." : "Đăng ký"}
               </button>
             </form>
-
-            <div className="w-3/4 h-px bg-slate-200/80 my-6 lg:my-8"></div>
-
-            <button
-              type="button"
-              className="w-full h-12 lg:h-14 bg-white text-slate-900 rounded-full text-sm font-medium shadow-sm border border-slate-100/50 hover:bg-slate-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 flex items-center justify-center gap-2.5"
-            >
-              <Globe size={18} className="text-slate-700 lg:w-5 lg:h-5" />
-              Đăng ký với Google
-            </button>
 
             <div className="mt-6 lg:mt-8 text-xs lg:text-sm text-slate-500">
               Bạn đã có tài khoản?{" "}

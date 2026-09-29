@@ -89,7 +89,7 @@ const PlaceDetail = () => {
     <div className="flex flex-col min-h-screen bg-slate-50">
       <Header />
 
-      <main className="flex-grow -mt-16">
+      <main className="flex-grow -mt-18">
         <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] bg-slate-900">
           <img
             src={

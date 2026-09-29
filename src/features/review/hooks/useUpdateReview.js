@@ -17,6 +17,8 @@ const useUpdateReview = () => {
       if (files && files.length > 0) {
         files.forEach((file) => formData.append("files", file));
       }
+      console.log(formData);
+      
 
       const response = await reviewService.updateReview(formData, reviewId);
       return response;

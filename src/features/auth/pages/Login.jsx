@@ -85,12 +85,15 @@ const Login = () => {
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 mb-3 lg:mb-4 tracking-tight">
-              Chào mừng đến với Hoverse
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 lg:mb-4 tracking-tight">
+              Xin chào bạn!
             </h2>
-            <p className="text-slate-500 text-xs sm:text-sm lg:text-base leading-relaxed mb-8 lg:mb-10 max-w-xs">
-              Cùng nhau chia sẻ và khám phá các địa điểm vui chơi, giải trí.
-            </p>
+
+            {error && (
+              <div className="w-full p-3 mb-6 text-sm font-medium text-danger bg-danger/5 border-l-4 border-danger text-left rounded-r-md">
+                {error}
+              </div>
+            )}
 
             <form
               onSubmit={handleSubmit}
@@ -124,12 +127,6 @@ const Login = () => {
                 />
               </div>
 
-              {error && (
-                <div className="w-full text-center text-sm font-medium text-danger mt-1">
-                  {error}
-                </div>
-              )}
-
               <button
                 type="submit"
                 disabled={loading}
@@ -139,7 +136,7 @@ const Login = () => {
               </button>
             </form>
 
-            <div className="w-3/4 h-px bg-slate-200/80 my-6 lg:my-8"></div>
+            <div className="w-3/4 h-px bg-slate-300/80 my-4 lg:my-6"></div>
 
             <div className="relative w-full h-12 lg:h-14">
               {/* GoogleLogin thật */}

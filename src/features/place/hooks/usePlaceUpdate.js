@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import placeService from "../services/placeService";
 import geocodeService from "@/services/geocodeService";
+import { toast } from "react-toastify";
 
 const usePlaceUpdate = (placeId) => {
   const navigate = useNavigate();
@@ -99,7 +100,7 @@ const usePlaceUpdate = (placeId) => {
     e.preventDefault();
 
     if (!formData.title || !formData.address) {
-      alert("Vui lỏng nhập đầy đủ các trường bắt buộc (*)");
+      toast.error("Vui lỏng nhập đầy đủ các trường bắt buộc (*)");
       return;
     }
 
@@ -122,11 +123,11 @@ const usePlaceUpdate = (placeId) => {
       });
 
       await placeService.updatePlace(placeId, submitData);
-      alert("Cập nhật thành công!");
+      toast.success("Cập nhật thành công!");
       navigate(`/places/${placeId}`);
     } catch (error) {
       console.error("Lỗi khi cập nhật:", error);
-      alert("Có lỗi xảy ra khi lưu: " + error.message);
+      toast.error("Có lỗi xảy ra khi lưu: " + error.message);
     } finally {
       setIsSubmitting(false);
     }

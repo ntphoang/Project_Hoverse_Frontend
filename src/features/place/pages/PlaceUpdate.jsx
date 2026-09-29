@@ -63,7 +63,7 @@ const PlaceUpdate = () => {
               <div className="space-y-8">
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-semibold text-slate-900 ml-1">
-                    Tiêu đề
+                    Tiêu đề *
                   </label>
                   <input
                     type="text"
@@ -91,7 +91,7 @@ const PlaceUpdate = () => {
 
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-semibold text-slate-900 ml-1 flex items-center gap-2">
-                    <MapPin size={16} /> Địa chỉ
+                    <MapPin size={16} /> Địa chỉ *
                   </label>
                   <input
                     type="text"

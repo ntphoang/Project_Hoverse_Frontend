@@ -19,7 +19,7 @@ const MapPicker = ({ latitude, longitude, onSelectAddress }) => {
   return (
     <MapContainer
       center={[latitude ?? 10.8231, longitude ?? 106.6297]}
-      zoom={13}
+      zoom={15}
       style={{ height: "100%", width: "100%", zIndex: 0 }}
     >
       <TileLayer

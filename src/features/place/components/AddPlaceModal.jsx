@@ -65,6 +65,7 @@ const AddPlaceModal = ({ isOpen, onClose }) => {
             longitude: null,
             tagIds: [],
           });
+          setPreviewUrls([]);
         },
       },
     );
