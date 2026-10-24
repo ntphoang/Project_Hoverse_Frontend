@@ -63,10 +63,13 @@ const MapPage = () => {
         zoom={15}
         zoomControl={false}
         className="absolute inset-0 z-0 h-full w-full"
+        maxZoom={24}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxNativeZoom={19}
+          maxZoom={24}
         />
 
         <MapCenterUpdater location={location} isGpsLoaded={isGpsLoaded} />
