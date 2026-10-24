@@ -69,6 +69,11 @@ const placeService = {
     });
     return response;
   },
+
+  getPlacesForMap: async()=>{
+    const response = await axiosClient.get("/places/map");
+    return response;
+  }
 };
 
 export default placeService;

@@ -6,6 +6,7 @@ import { useResendVerify } from "@/features/auth";
 
 const NAV_ITEMS = [
   { path: "/", label: "Trang chủ", isExact: true },
+  { path: "/map", label: "Bản đồ" },
   { path: "/favorites", label: "Yêu thích" },
   { path: "/ai", label: "AI gợi ý" },
   { path: "/admin/dashboard", label: "Quản lý" },
@@ -15,9 +16,9 @@ const AVATAR_DEFAULT =
   "https://res.cloudinary.com/ty4mmnvd/image/upload/v1785929829/avatar-default_ziyif2.svg";
 
 const LOGO =
-  "https://res.cloudinary.com/ty4mmnvd/image/upload/v1790067255/Hoverse_Logo_Ngang_Dai_1_xdgl92.png";
+  "https://res.cloudinary.com/ty4mmnvd/image/upload/v1792861723/Hoverse_Logo_Ngang_Dai_1_ie9emo.png";
 
-export default function Header() {
+export default function Header({ isMapPage = false }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
@@ -44,6 +45,64 @@ export default function Header() {
         ? "bg-slate-900 text-white shadow-sm"
         : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
     }`;
+
+  if (isMapPage) {
+    return (
+      <header className="absolute right-4 top-4 z-[1002]">
+        {/* NÚT TOGGLE MENU */}
+        <button
+          type="button"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          aria-label={isMobileMenuOpen ? "Đóng menu" : "Mở menu"}
+          aria-expanded={isMobileMenuOpen}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md backdrop-blur-md transition hover:bg-slate-100 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/50"
+        >
+          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+
+        {/* MENU DROPDOWN */}
+        {isMobileMenuOpen && (
+          <div className="absolute right-0 top-[calc(100%+12px)] z-[1003] flex w-64 flex-col gap-2 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-hover backdrop-blur-md animate-in fade-in slide-in-from-top-4 duration-200">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                onClick={handleMobileNavClick}
+                end={item.isExact}
+                className={({ isActive }) =>
+                  `flex items-center rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
+                    isActive
+                      ? "bg-slate-900 text-white"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+
+            {user ? (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="mt-2 flex w-full items-center justify-center rounded-xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-200"
+              >
+                Đăng xuất
+              </button>
+            ) : (
+              <Link
+                to="/register"
+                onClick={handleMobileNavClick}
+                className="mt-2 flex items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-card transition-colors hover:bg-black "
+              >
+                Đăng ký ngay
+              </Link>
+            )}
+          </div>
+        )}
+      </header>
+    );
+  }
 
   return (
     <header className="sticky top-4 w-full z-50 px-4 md:px-6 lg:px-8">
@@ -121,7 +180,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/50 ml-1"
+            className={`md:hidden p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/50 ml-1`}
           >
             {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>

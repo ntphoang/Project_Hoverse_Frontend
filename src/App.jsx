@@ -17,6 +17,7 @@ import AdminTagManage from "./features/tag/pages/AdminTagManage";
 import AdminDashboard from "./features/admin/pages/AdminDashboard";
 import { AdminReviewManage } from "./features/review";
 import GeminiRecommendPlace from "./features/gemini/page/GeminiRecommendPlace";
+import MapPage from "./pages/MapPage";
 
 function App() {
   useFetchFavoriteIds();
@@ -35,6 +36,10 @@ function App() {
         <Route
           path={`/places/:placeId`}
           element={<PlaceDetail></PlaceDetail>}
+        ></Route>
+        <Route
+          path={"/map"}
+          element={<MapPage></MapPage>}
         ></Route>
 
         {/* CÁC TRANG YÊU CÂU LOGIN */}
