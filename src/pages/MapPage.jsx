@@ -21,17 +21,18 @@ const MapPage = () => {
   }, [keyword, places]);
 
   return (
-    <div className="relative h-screen w-full bg-slate-50">
-      {/* HEADER */}
-      <Header
-        className="absolute left-0 right-0 top-0 z-[1000]"
-        isMapPage={true}
-      />
+    <div className="relative h-[100dvh] w-full bg-slate-50 overflow-hidden">
+      {/* HEADER (Toggle tự động nằm ở góc top-4, right-4) */}
+      <Header isMapPage={true} />
 
       {/* THANH TÌM KIẾM */}
-      <div className="absolute left-1/2 top-4 z-[1001] w-[calc(100%-7rem)] max-w-md -translate-x-1/2 sm:top-5 sm:w-[40%]">
-        <div className="mx-auto w-full max-w-md">
-          <div className="flex items-center gap-3 rounded-full border border-slate-200/80 bg-white/95 px-4 py-3 shadow-lg shadow-slate-900/5 backdrop-blur-md transition-all duration-200 focus-within:border-slate-400 focus-within:ring-2 focus-within:ring-slate-200/80">
+      {/* Căn top-4 để thẳng hàng ngang với Toggle. 
+          Trên Mobile: left-4 và right-20 để không đè lên Toggle.
+          Trên Desktop: Căn giữa màn hình. */}
+      <div className="absolute left-4 right-20 top-4 z-[1001] md:left-1/2 md:right-auto md:w-full md:max-w-[400px] md:-translate-x-1/2">
+        <div className="w-full">
+          {/* Fix cứng h-11 để bằng chính xác chiều cao của icon Toggle */}
+          <div className="flex h-11 items-center gap-3 rounded-full border border-slate-200/80 bg-white/95 px-4 shadow-lg shadow-slate-900/10 backdrop-blur-md transition-all duration-200 focus-within:border-slate-400 focus-within:ring-2 focus-within:ring-slate-200/80">
             <Search size={19} className="shrink-0 text-slate-400" />
 
             <input
@@ -40,7 +41,7 @@ const MapPage = () => {
               onChange={(e) => setKeyword(e.target.value)}
               placeholder="Tìm địa điểm..."
               aria-label="Tìm kiếm địa điểm"
-              className="min-w-0 flex-1 bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400"
+              className="min-w-0 flex-1 bg-transparent text-[16px] font-medium text-slate-900 outline-none placeholder:text-slate-400 md:text-sm"
             />
 
             {keyword && (
@@ -48,7 +49,7 @@ const MapPage = () => {
                 type="button"
                 onClick={() => setKeyword("")}
                 aria-label="Xóa nội dung tìm kiếm"
-                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-900"
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-900"
               >
                 <X size={16} />
               </button>
@@ -57,12 +58,12 @@ const MapPage = () => {
         </div>
       </div>
 
-      {/* CONTAINER CHỨA BẢN ĐÒ */}
+      {/* CONTAINER CHỨA BẢN ĐỒ */}
       <MapContainer
         center={[location.latitude, location.longitude]}
         zoom={15}
         zoomControl={false}
-        className="absolute inset-0 z-0 h-full w-full"
+        className="absolute inset-0 z-0 h-full w-full outline-none"
         maxZoom={24}
       >
         <TileLayer
@@ -87,20 +88,22 @@ const MapPage = () => {
             </Tooltip>
 
             <Popup>
-              <div className="flex min-w-[180px] flex-col !gap-1 p-0.5">
+              <div className="flex w-[200px] max-w-[75vw] flex-col !gap-2 p-0.5 sm:w-[220px]">
                 {place.coverImageUrl && (
-                  <img
-                    src={place.coverImageUrl}
-                    alt={place.title}
-                    className="h-24 w-full rounded-2xl border border-slate-100 object-cover"
-                  />
+                  <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-100">
+                    <img
+                      src={place.coverImageUrl}
+                      alt={place.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </div>
                 )}
 
                 <div className="flex flex-col px-1">
-                  <h3 className="!m-0 line-clamp-1 text-base font-semibold text-slate-900">
+                  <h3 className="line-clamp-2 !m-0 text-base font-bold leading-tight text-slate-900">
                     {place.title}
                   </h3>
-                  <p className="!m-0 text-sm font-medium text-slate-500">
+                  <p className="!m-0 mt-1 text-xs font-medium text-slate-500">
                     ⭐ {place.avgRating ?? 0} ({place.reviewCount ?? 0} đánh
                     giá)
                   </p>
@@ -108,7 +111,7 @@ const MapPage = () => {
 
                 <Link
                   to={`/places/${place.id}`}
-                  className="mt-1 block w-full rounded-full bg-black px-4 py-2 text-center text-sm font-medium !text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+                  className="mt-1 block w-full rounded-full bg-slate-900 px-4 py-2.5 text-center text-sm font-medium !text-white shadow-sm transition-all hover:bg-slate-800 active:scale-[0.98]"
                 >
                   Xem chi tiết
                 </Link>
@@ -118,13 +121,14 @@ const MapPage = () => {
         ))}
       </MapContainer>
 
-      {/* Nút lấy lại vị trí hiện tại */}
+      {/* NÚT LẤY LẠI VỊ TRÍ HIỆN TẠI */}
+      {/* Cố định right-4 và h-11 w-11 để thẳng hàng và bằng kích thước với nút Toggle */}
       <button
         type="button"
         onClick={getGpsOfUser}
         title="Về vị trí hiện tại"
         aria-label="Về vị trí hiện tại"
-        className="absolute bottom-6 right-4 z-[1000] flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-lg transition hover:bg-slate-50 active:scale-95"
+        className="absolute bottom-6 right-4 z-[1000] flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-lg backdrop-blur-md transition-all hover:bg-slate-50 hover:text-slate-900 active:scale-95"
       >
         <LocateFixed size={22} />
       </button>
