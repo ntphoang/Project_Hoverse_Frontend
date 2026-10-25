@@ -70,10 +70,29 @@ const placeService = {
     return response;
   },
 
-  getPlacesForMap: async()=>{
+  getPlacesForMap: async () => {
     const response = await axiosClient.get("/places/map");
     return response;
-  }
+  },
+
+  createPlaceByAdmin: async (request, files = []) => {
+    const formData = new FormData();
+
+    formData.append(
+      "place",
+      new Blob([JSON.stringify(request)], {
+        type: "application/json",
+      }),
+    );
+
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const response = await axiosClient.post("/places/admin", formData);
+
+    return response;
+  },
 };
 
 export default placeService;

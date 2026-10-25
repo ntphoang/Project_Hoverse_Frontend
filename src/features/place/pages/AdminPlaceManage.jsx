@@ -1,10 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import AdminPlaceList from "../components/AdminPlaceList";
+import { useState } from "react";
+import AdminAddPlaceForm from "../components/AdminAddPlaceForm";
 
 const AdminPlaceManage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = searchParams.get("tab") || "pending";
   const page = searchParams.get("page") || "0";
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   const getStatusLabel = (status) => {
     if (status === "PENDING") return "Chờ duyệt";
@@ -16,11 +19,26 @@ const AdminPlaceManage = () => {
   return (
     <div className="w-full flex flex-col gap-6">
       {/* Header khu vực quản lý */}
+
+      {/* Header khu vực quản lý */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
-          <h1 className="text-2xl font-heading font-bold text-slate-900 tracking-tight">
-            Quản lý địa điểm
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-heading font-bold text-slate-900 tracking-tight">
+              Quản lý địa điểm
+            </h1>
+
+            <button
+              type="button"
+              onClick={() => setIsFormOpen(true)}
+              title="Thêm địa điểm"
+              aria-label="Thêm địa điểm"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white transition hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+            >
+              <span className="text-xl leading-none">+</span>
+            </button>
+          </div>
+
           <p className="text-sm text-slate-500 mt-1">
             Duyệt và quản lý các địa điểm do người dùng đề xuất
           </p>
@@ -42,13 +60,14 @@ const AdminPlaceManage = () => {
                   })
                 }
                 className={`
-                  px-5 py-2 text-sm font-semibold rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400
-                  ${
-                    isActive
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
-                  }
-                `}
+            px-5 py-2 text-sm font-semibold rounded-full transition-all duration-300
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400
+            ${
+              isActive
+                ? "bg-white text-slate-900 shadow-sm"
+                : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+            }
+          `}
               >
                 {getStatusLabel(placeStatus)}
               </button>
@@ -56,6 +75,12 @@ const AdminPlaceManage = () => {
           })}
         </div>
       </div>
+
+      {/* Form thêm địa điểm */}
+      <AdminAddPlaceForm
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+      />
 
       {/* Khu vực Render List */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-2 md:p-4 min-h-[500px]">
