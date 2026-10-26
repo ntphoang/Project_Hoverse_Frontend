@@ -6,7 +6,7 @@ const useAdminTags = ({ isActive }) => {
     queryKey: ["admin-tags", isActive],
 
     queryFn: async () => {
-      return await tagService.getAllTags({ isActive });
+      return await tagService.getTagsByCondition({ isActive });
     },
   });
 };

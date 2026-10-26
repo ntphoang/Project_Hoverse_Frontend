@@ -1,12 +1,12 @@
 import categoryService from "../services/categoryService";
 import { useQuery } from "@tanstack/react-query";
 
-const useFetchCategories = () => {
+const useFetchCategories = (params = {}) => {
   return useQuery({
-    queryKey: ["categories"],
+    queryKey: ["categories", params],
 
     queryFn: async () => {
-      return await categoryService.getCategoryByConditions();
+      return await categoryService.getCategoryByConditions(params);
     },
   });
 };

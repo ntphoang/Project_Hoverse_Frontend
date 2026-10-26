@@ -27,6 +27,26 @@ import {
   Palette,
   Mountain,
   Images,
+
+  // Icons for 20 new tags
+  Wallet,
+  BadgeCheck,
+  Users,
+  Heart,
+  UsersRound,
+  Snowflake,
+  ParkingCircle,
+  CalendarCheck,
+  Sparkles,
+  TrendingUp,
+  Star,
+  Zap,
+  Sun,
+  Umbrella,
+  DoorClosed,
+  Layers,
+  Ticket,
+  PackageCheck,
 } from "lucide-react";
 
 const iconMap = {
@@ -60,6 +80,26 @@ const iconMap = {
   Palette,
   Mountain,
   Images,
+
+  // Hoverse tags
+  Wallet,
+  BadgeCheck,
+  Users,
+  Heart,
+  UsersRound,
+  Snowflake,
+  ParkingCircle,
+  CalendarCheck,
+  Sparkles,
+  TrendingUp,
+  Star,
+  Zap,
+  Sun,
+  Umbrella,
+  DoorClosed,
+  Layers,
+  Ticket,
+  PackageCheck,
 };
 
 const iconDictionary = ({ iconName, size = 20, className = "" }) => {

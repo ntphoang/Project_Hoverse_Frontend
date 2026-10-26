@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
 import tagService from "../services/tagService";
 import { useQuery } from "@tanstack/react-query";
 
-const useFetchTags = () => {
+const useFetchTags = (params = {}) => {
   return useQuery({
-    queryKey: ["tags"],
+    queryKey: ["tags", params],
 
     queryFn: async () => {
-      return await tagService.getAllTags();
+      return await tagService.getTagsByCondition(params);
     },
   });
 };

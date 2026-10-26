@@ -11,6 +11,7 @@ const PlaceItem = ({ place, onClick }) => {
     avgRating,
     reviewCount,
     coverImageUrl,
+    authorFullName,
     authorName,
     authorAvatarUrl,
     createdAt,
@@ -19,7 +20,7 @@ const PlaceItem = ({ place, onClick }) => {
   const fallbackImage =
     "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop";
   const displayImage = coverImageUrl ? coverImageUrl : fallbackImage;
-  const author = authorName || "Anonymous";
+  const author = authorFullName || authorName || "Anonymous";
 
   const favoriteIds = useFavoritesStore((state) => state.favoriteIds);
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);

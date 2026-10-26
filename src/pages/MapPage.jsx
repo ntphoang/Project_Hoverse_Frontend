@@ -5,7 +5,24 @@ import usePlaceForMap from "@/features/place/hooks/usePlaceForMap";
 import { LocateFixed, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, Tooltip } from "react-leaflet";
+import L from "leaflet";
 import { Link } from "react-router-dom";
+
+const userLocationIcon = L.divIcon({
+  className: "",
+  html: `
+    <div style="
+      width: 20px;
+      height: 20px;
+      background: #ef4444;
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    "></div>
+  `,
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+});
 
 const MapPage = () => {
   const { data: places } = usePlaceForMap();
@@ -22,16 +39,12 @@ const MapPage = () => {
 
   return (
     <div className="relative h-[100dvh] w-full bg-slate-50 overflow-hidden">
-      {/* HEADER (Toggle tự động nằm ở góc top-4, right-4) */}
+      {/* HEADER */}
       <Header isMapPage={true} />
 
       {/* THANH TÌM KIẾM */}
-      {/* Căn top-4 để thẳng hàng ngang với Toggle. 
-          Trên Mobile: left-4 và right-20 để không đè lên Toggle.
-          Trên Desktop: Căn giữa màn hình. */}
       <div className="absolute left-4 right-20 top-4 z-[1001] md:left-1/2 md:right-auto md:w-full md:max-w-[400px] md:-translate-x-1/2">
         <div className="w-full">
-          {/* Fix cứng h-11 để bằng chính xác chiều cao của icon Toggle */}
           <div className="flex h-11 items-center gap-3 rounded-full border border-slate-200/80 bg-white/95 px-4 shadow-lg shadow-slate-900/10 backdrop-blur-md transition-all duration-200 focus-within:border-slate-400 focus-within:ring-2 focus-within:ring-slate-200/80">
             <Search size={19} className="shrink-0 text-slate-400" />
 
@@ -75,7 +88,10 @@ const MapPage = () => {
 
         <MapCenterUpdater location={location} isGpsLoaded={isGpsLoaded} />
 
-        <Marker position={[location.latitude, location.longitude]}>
+        <Marker
+          position={[location.latitude, location.longitude]}
+          icon={userLocationIcon}
+        >
           <Tooltip permanent direction="top" offset={[0, -10]}>
             <span className="font-semibold text-slate-900">Vị trí của bạn</span>
           </Tooltip>
@@ -122,7 +138,6 @@ const MapPage = () => {
       </MapContainer>
 
       {/* NÚT LẤY LẠI VỊ TRÍ HIỆN TẠI */}
-      {/* Cố định right-4 và h-11 w-11 để thẳng hàng và bằng kích thước với nút Toggle */}
       <button
         type="button"
         onClick={getGpsOfUser}

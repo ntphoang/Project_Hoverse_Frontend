@@ -1,7 +1,7 @@
 import axiosClient from "@/api/axiosClient";
 
 const tagService = {
-  getAllTags: async (params) => {
+  getTagsByCondition: async (params) => {
     const response = await axiosClient.get("/tags", {
       params: { ...params },
     });

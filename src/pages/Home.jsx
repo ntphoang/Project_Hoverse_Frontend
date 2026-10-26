@@ -24,8 +24,11 @@ import {
 import useActionGuard from "@/utils/useActionGuard";
 
 const Home = () => {
-  const { data: categories } = useFetchCategories();
-  const { data: tags } = useFetchTags();
+  const { data: categories } = useFetchCategories({
+    hasPlace: true,
+    isActive: true,
+  });
+  const { data: tags } = useFetchTags({ hasPlace: true, isActive: true });
   const {
     appliedFilter,
     draftFilter,
@@ -299,8 +302,8 @@ const Home = () => {
 
             {places?.length === 0 && !isLoading ? (
               <div className="flex flex-col items-center justify-center py-20 px-4 bg-white rounded-[2rem] border border-slate-200 shadow-sm text-center">
-                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-2xl mb-4">
-                  🔍
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-400">
+                  <Search size={28} strokeWidth={1.5} />
                 </div>
                 <h3 className="font-heading font-bold text-slate-900 text-lg mb-1">
                   Không tìm thấy kết quả
